@@ -1,0 +1,14 @@
+{
+  "services": [
+    {
+      "name": "auth-service",
+      "endpoint": "tbd",
+      "repo": "https://gitlab.lnu.se/pr222iw/restful-cafe-auth-service"
+    },
+    {
+      "name": "resource-service",
+      "endpoint": "tbd",
+      "repo": "https://gitlab.lnu.se/pr222iw/restful-cafe-resource-service"
+    }
+  ]
+}
