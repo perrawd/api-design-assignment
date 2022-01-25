@@ -11,14 +11,18 @@ import javax.persistence.Id;
 public class Drink {
     private @Id @GeneratedValue Long id;
     private String name;
+    private Type type;
+    private Beverage beverage;
     private ArrayList<String> ingredients;
     private double price;
 
     public Drink () {}
 
-    public Drink(Long id, String name, ArrayList<String> ingredients, double price) {
+    public Drink(Long id, String name, Type type, Beverage beverage, ArrayList<String> ingredients, double price) {
         this.id = id;
         this.name = name;
+        this.type = type;
+        this.beverage = beverage;
         this.ingredients = ingredients;
         this.price = price;
     }
@@ -37,6 +41,22 @@ public class Drink {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public Beverage getBeverage() {
+        return beverage;
+    }
+
+    public void setBeverage(Beverage beverage) {
+        this.beverage = beverage;
     }
 
     public ArrayList<String> getIngredients() {
@@ -63,11 +83,13 @@ public class Drink {
         return Double.compare(drink.price, price) == 0
                 && Objects.equals(id, drink.id)
                 && Objects.equals(name, drink.name)
+                && Objects.equals(type, drink.type)
+                && Objects.equals(beverage, drink.beverage)
                 && Objects.equals(ingredients, drink.ingredients);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, ingredients, price);
+        return Objects.hash(id, name, type, beverage, ingredients, price);
     }
 }
