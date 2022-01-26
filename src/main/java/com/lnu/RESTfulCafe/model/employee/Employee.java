@@ -1,7 +1,5 @@
 package com.lnu.RESTfulCafe.model.employee;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,6 +31,16 @@ public class Employee {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return this.firstName + " " + this.lastName;
+    }
+
+    public void setName(String name) {
+        String[] parts = name.split(" ");
+        this.firstName = parts[0];
+        this.lastName = parts[1];
     }
 
     public String getFirstName() {
