@@ -1,22 +1,24 @@
 package com.lnu.RESTfulCafe.model.employee;
 
-import javax.persistence.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Employee {
-    private Long id;
+    private @Id @GeneratedValue Long id;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
-    private Collection<Role> roles = new ArrayList<>();
+    private ArrayList<Role> roles = new ArrayList<>();
 
     public Employee () {}
 
-    public Employee(Long id, String firstName, String lastName, String username, String password, Collection<Role> roles) {
+    public Employee(Long id, String firstName, String lastName, String username, String password, ArrayList<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -69,7 +71,7 @@ public class Employee {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(ArrayList<Role> roles) {
         this.roles = roles;
     }
 
