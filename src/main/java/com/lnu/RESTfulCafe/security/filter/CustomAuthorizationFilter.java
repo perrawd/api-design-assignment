@@ -8,6 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.lnu.RESTfulCafe.utils.PropertyUtil;
+import com.lnu.RESTfulCafe.utils.TokenDecoderUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -43,11 +44,7 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
             if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
-                    String token = authorizationHeader.substring("Bearer ".length());
-                    String property = String.valueOf(PropertyUtil.getProperties().getProperty("app.token.var"));
-                    Algorithm algorithm = Algorithm.HMAC256(property.getBytes());
-                    JWTVerifier verifier = JWT.require(algorithm).build();
-                    DecodedJWT decodedJWT = verifier.verify(token);
+                    DecodedJWT decodedJWT = TokenDecoderUtil.decode(authorizationHeader);
                     String username = decodedJWT.getSubject();
                     String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
