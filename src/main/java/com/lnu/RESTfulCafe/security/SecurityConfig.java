@@ -1,6 +1,7 @@
 package com.lnu.RESTfulCafe.security;
 
 import com.lnu.RESTfulCafe.security.filter.CustomAuthenticationFilter;
+import com.lnu.RESTfulCafe.security.filter.CustomAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,8 +36,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         //http.authorizeRequests().anyRequest().authenticated();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/beans/**", "/drinks/**", "/employees/**").hasAnyAuthority("ROLE_USER");
         http.addFilter(customAuthenticationFilter);
-        //http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
