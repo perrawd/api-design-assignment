@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.AUTO;
+
 @Entity
 public class Employee {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = AUTO) Long id;
     private String firstName;
     private String lastName;
     private String userName;
     private String password;
-    private ArrayList<Role> roles = new ArrayList<>();
+    @ManyToMany(fetch= FetchType.EAGER)
+    private Collection<Role> roles = new ArrayList<>();
 
     public Employee () {}
 

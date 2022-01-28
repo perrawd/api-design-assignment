@@ -5,9 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Objects;
 
+import static javax.persistence.GenerationType.AUTO;
+
 @Entity
 public class Role {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = AUTO) Long id;
     private String name;
 
     public Role () {}
