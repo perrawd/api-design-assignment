@@ -23,7 +23,7 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee user = employeeRepository.findByUserName(username);
+        Employee user = employeeRepository.findByUsername(username);
         if (user == null) {
             log.error("User not found in the database.");
             throw new UsernameNotFoundException("User not found in the database.");
@@ -35,7 +35,7 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
         user.getRoles().forEach(role -> {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
-        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), authorities);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
     }
 
     @Override
@@ -50,16 +50,16 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
     }
 
     @Override
-    public void addRoleToUser(String userName, String roleName) {
-        Employee user = employeeRepository.findByUserName(userName);
+    public void addRoleToUser(String username, String roleName) {
+        Employee user = employeeRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
 
         user.getRoles().add(role);
     }
 
     @Override
-    public Employee getUser(String userName) {
-        return employeeRepository.findByUserName(userName);
+    public Employee getUser(String username) {
+        return employeeRepository.findByUsername(username);
     }
 
     @Override

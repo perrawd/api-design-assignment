@@ -12,18 +12,18 @@ public class Employee {
     private @Id @GeneratedValue(strategy = AUTO) Long id;
     private String firstName;
     private String lastName;
-    private String userName;
+    private String username;
     private String password;
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
     public Employee () {}
 
-    public Employee(Long id, String firstName, String lastName, String userName, String password, ArrayList<Role> roles) {
+    public Employee(Long id, String firstName, String lastName, String username, String password, ArrayList<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.userName = userName;
+        this.username = username;
         this.password = password;
         this.roles = roles;
     }
@@ -62,12 +62,12 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -91,11 +91,11 @@ public class Employee {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(userName, employee.userName) && Objects.equals(password, employee.password) && Objects.equals(roles, employee.roles);
+        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(username, employee.username) && Objects.equals(password, employee.password) && Objects.equals(roles, employee.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, userName, password, roles);
+        return Objects.hash(id, firstName, lastName, username, password, roles);
     }
 }
