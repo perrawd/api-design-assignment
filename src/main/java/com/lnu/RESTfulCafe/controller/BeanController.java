@@ -56,7 +56,8 @@ public class BeanController {
 
         EntityModel<Bean> entityModel = assembler.toModel(repository.save(newBean));
 
-        publisher.publishEvent("Bean has been added to RESTfulCafé!");
+        // Publish event with Bean.
+        publisher.publishEvent(newBean);
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
