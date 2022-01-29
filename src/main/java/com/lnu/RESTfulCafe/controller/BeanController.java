@@ -3,11 +3,13 @@ package com.lnu.RESTfulCafe.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lnu.RESTfulCafe.event.BeanAddedEventPublisher;
 import com.lnu.RESTfulCafe.model.bean.Bean;
 import com.lnu.RESTfulCafe.model.bean.BeanModelAssembler;
 import com.lnu.RESTfulCafe.model.bean.BeanRepository;
 import com.lnu.RESTfulCafe.controller.error.BeanNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class BeanController {
 
     private final BeanRepository repository;
-
     private final BeanModelAssembler assembler;
+
+    @Autowired
+    private BeanAddedEventPublisher publisher;
 
     BeanController(BeanRepository repository, BeanModelAssembler assembler) {
         this.repository = repository;
@@ -51,6 +55,8 @@ public class BeanController {
     ResponseEntity<?> newBean(@RequestBody Bean newBean) {
 
         EntityModel<Bean> entityModel = assembler.toModel(repository.save(newBean));
+
+        publisher.publishEvent("Bean has been added to RESTfulCafé!");
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
