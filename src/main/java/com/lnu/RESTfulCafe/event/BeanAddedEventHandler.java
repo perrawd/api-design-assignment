@@ -22,11 +22,13 @@ public class BeanAddedEventHandler {
 
     @EventListener
     public void handleEvent (BeanAddedEvent event) {
+        RestTemplate restTemplate = new RestTemplate();
+
         List<Subscriber> subscribers = repository.findAll();
 
-        RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+
         HttpEntity<Bean> entity = new HttpEntity<Bean>(event.getBean(),headers);
 
         subscribers
