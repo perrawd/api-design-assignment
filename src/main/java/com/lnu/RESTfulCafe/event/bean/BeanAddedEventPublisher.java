@@ -1,4 +1,4 @@
-package com.lnu.RESTfulCafe.event;
+package com.lnu.RESTfulCafe.event.bean;
 
 import com.lnu.RESTfulCafe.model.bean.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
