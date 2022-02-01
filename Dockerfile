@@ -1,6 +1,6 @@
-FROM maven:4.0.0-jdk-17
+FROM maven:3.8.4-openjdk-17
 
-WORKDIR /api-design-assignment
+WORKDIR .
 COPY . .
 RUN mvn clean install -DskipTests
 
