@@ -3,7 +3,7 @@ package com.lnu.RESTfulCafe.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.lnu.RESTfulCafe.event.BeanAddedEventPublisher;
+import com.lnu.RESTfulCafe.event.bean.BeanAddedEventPublisher;
 import com.lnu.RESTfulCafe.model.bean.Bean;
 import com.lnu.RESTfulCafe.model.bean.BeanModelAssembler;
 import com.lnu.RESTfulCafe.model.bean.BeanRepository;

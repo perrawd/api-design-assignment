@@ -3,11 +3,13 @@ package com.lnu.RESTfulCafe.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lnu.RESTfulCafe.event.drink.DrinkAddedEventPublisher;
 import com.lnu.RESTfulCafe.model.drink.Drink;
 import com.lnu.RESTfulCafe.model.drink.DrinkModelAssembler;
 import com.lnu.RESTfulCafe.model.drink.DrinkRepository;
 import com.lnu.RESTfulCafe.controller.error.DrinkNotFoundException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +29,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class DrinkController {
 
     private final DrinkRepository repository;
-
     private final DrinkModelAssembler assembler;
+
+    @Autowired
+    private DrinkAddedEventPublisher publisher;
 
     DrinkController(DrinkRepository repository, DrinkModelAssembler assembler) {
         this.repository = repository;
@@ -51,6 +55,9 @@ public class DrinkController {
     ResponseEntity<?> newDrink(@RequestBody Drink newDrink) {
 
         EntityModel<Drink> entityModel = assembler.toModel(repository.save(newDrink));
+
+        // Publish event with Drink.
+        publisher.publishEvent(newDrink);
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
