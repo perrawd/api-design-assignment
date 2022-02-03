@@ -1,7 +1,5 @@
 package com.lnu.RESTfulCafe.model.order;
 
-package payroll;
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 import com.lnu.RESTfulCafe.controller.OrderController;
