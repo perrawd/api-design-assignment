@@ -12,7 +12,7 @@ public class Order {
     private @Id @GeneratedValue Long id;
     private Status status;
     private String special;
-
+    // Add drink/bean
     Order() {}
 
     public Order(Status status, String special) {
