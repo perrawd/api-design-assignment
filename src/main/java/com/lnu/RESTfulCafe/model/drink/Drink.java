@@ -1,30 +1,38 @@
 package com.lnu.RESTfulCafe.model.drink;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.lnu.RESTfulCafe.model.order.Order;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+
+import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Drink {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "id") Long id;
     private String name;
     private Type type;
     private Beverage beverage;
     private ArrayList<String> ingredients;
     private double price;
+    @JsonIgnore
+    @OneToOne(mappedBy = "drink")
+    //@JoinColumn(name = "order_id")
+    private Order order;
 
     public Drink () {}
 
-    public Drink(Long id, String name, Type type, Beverage beverage, ArrayList<String> ingredients, double price) {
+    public Drink(Long id, String name, Type type, Beverage beverage, ArrayList<String> ingredients, double price, Order order) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.beverage = beverage;
         this.ingredients = ingredients;
         this.price = price;
+        this.order = order;
     }
 
     public Long getId() {
@@ -75,6 +83,14 @@ public class Drink {
         this.price = price;
     }
 
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,11 +101,12 @@ public class Drink {
                 && Objects.equals(name, drink.name)
                 && Objects.equals(type, drink.type)
                 && Objects.equals(beverage, drink.beverage)
-                && Objects.equals(ingredients, drink.ingredients);
+                && Objects.equals(ingredients, drink.ingredients)
+                && Objects.equals(order, drink.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, type, beverage, ingredients, price);
+        return Objects.hash(id, name, type, beverage, ingredients, price, order);
     }
 }
