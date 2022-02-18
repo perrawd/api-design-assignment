@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BeanAddedEventPublisher {
     @Autowired
-    private ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher publisher;
 
     BeanAddedEventPublisher(ApplicationEventPublisher publisher) {
         this.publisher = publisher;

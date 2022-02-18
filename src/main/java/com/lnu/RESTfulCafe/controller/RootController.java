@@ -26,7 +26,7 @@ public class RootController {
         NavLink drinksLink = new NavLink();
         drinksLink.name = "Drinks";
         drinksLink.description = "The best and high quality coffee drinks made with ❤️";
-        drinksLink.add(linkTo(methodOn(BeanController.class).all()).withRel("drinks"));
+        drinksLink.add(linkTo(methodOn(DrinkController.class).all()).withRel("drinks"));
         links.add(drinksLink);
 
         return CollectionModel.of(links);

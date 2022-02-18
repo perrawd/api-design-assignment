@@ -10,6 +10,8 @@ import org.springframework.context.event.EventListener;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,20 +22,25 @@ public class BeanAddedEventHandler {
 
     @EventListener
     public void handleEvent (BeanAddedEvent event) {
-        RestTemplate restTemplate = new RestTemplate();
 
         List<Subscriber> subscribers = repository.findAll();
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-
-        HttpEntity<Bean> entity = new HttpEntity<Bean>(event.getBean(),headers);
 
         subscribers
                 .stream()
                 .filter(subscriber -> subscriber.getEvent() == Event.NEWBEAN)
                 .forEach(subscriber -> {
-                    restTemplate.exchange(subscriber.getUrl(), HttpMethod.POST, entity, Bean.class);
+                    postRequest(subscriber, event).subscribe();
                 });
+    }
+
+    private Mono<Void> postRequest (Subscriber subscriber, BeanAddedEvent event) {
+        System.out.println(subscriber.getUrl());
+        WebClient webClient = WebClient.create();
+        return webClient.post()
+                .uri(subscriber.getUrl())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .body(Mono.just(event.getBean()), Bean.class)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 }
