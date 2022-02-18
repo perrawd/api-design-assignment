@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -24,23 +23,19 @@ public class BeanAddedEventHandler {
     public void handleEvent (BeanAddedEvent event) {
 
         List<Subscriber> subscribers = repository.findAll();
+        WebClient webClient = WebClient.create();
 
         subscribers
                 .stream()
                 .filter(subscriber -> subscriber.getEvent() == Event.NEWBEAN)
                 .forEach(subscriber -> {
-                    postRequest(subscriber, event).subscribe();
+                    webClient.post()
+                            .uri(subscriber.getUrl())
+                            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                            .body(Mono.just(event.getBean()), Bean.class)
+                            .retrieve()
+                            .bodyToMono(Void.class)
+                            .subscribe();
                 });
-    }
-
-    private Mono<Void> postRequest (Subscriber subscriber, BeanAddedEvent event) {
-        System.out.println(subscriber.getUrl());
-        WebClient webClient = WebClient.create();
-        return webClient.post()
-                .uri(subscriber.getUrl())
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                .body(Mono.just(event.getBean()), Bean.class)
-                .retrieve()
-                .bodyToMono(Void.class);
     }
 }
