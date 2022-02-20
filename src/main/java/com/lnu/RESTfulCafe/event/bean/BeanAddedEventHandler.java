@@ -1,5 +1,6 @@
 package com.lnu.RESTfulCafe.event.bean;
 
+import com.lnu.RESTfulCafe.event.error.ResponseException;
 import com.lnu.RESTfulCafe.model.bean.Bean;
 
 import com.lnu.RESTfulCafe.model.subscriber.Event;
@@ -34,6 +35,12 @@ public class BeanAddedEventHandler {
                              .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                              .body(Mono.just(event.getBean()), Bean.class)
                              .retrieve()
+                             .onStatus(HttpStatus::is4xxClientError, response -> {
+                                return Mono.error(ResponseException::new);
+                             })
+                             .onStatus(HttpStatus::is5xxServerError, response -> {
+                                return Mono.error(ResponseException::new);
+                             })
                              .bodyToMono(Void.class)
                              .subscribe();
                 });
