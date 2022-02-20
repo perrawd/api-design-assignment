@@ -6,10 +6,12 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 @Entity
+@SequenceGenerator(name = "beanseq", initialValue = 1)
 public class Bean {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(generator = "beanseq") Long id;
     private String name;
     private String origin;
     private String region;

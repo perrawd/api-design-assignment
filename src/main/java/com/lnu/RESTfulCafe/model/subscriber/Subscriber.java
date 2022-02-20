@@ -3,11 +3,13 @@ package com.lnu.RESTfulCafe.model.subscriber;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import java.util.Objects;
 
 @Entity
+@SequenceGenerator(name = "seq", initialValue = 1)
 public class Subscriber {
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue(generator = "seq") Long id;
     private String url;
     private Event event;
 

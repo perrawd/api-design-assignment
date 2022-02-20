@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 class DrinkNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(BeanNotFoundException.class)
+    @ExceptionHandler(DrinkNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String beanNotFoundHandler(BeanNotFoundException ex) {
+    String drinkNotFoundHandler(DrinkNotFoundException ex) {
         return ex.getMessage();
     }
 }

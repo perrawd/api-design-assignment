@@ -8,8 +8,9 @@ import java.util.Objects;
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
+@SequenceGenerator(name = "employeeseq", initialValue = 1)
 public class Employee {
-    private @Id @GeneratedValue(strategy = AUTO) Long id;
+    private @Id @GeneratedValue(generator = "employeeseq") Long id;
     private String firstName;
     private String lastName;
     private String username;

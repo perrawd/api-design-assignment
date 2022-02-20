@@ -9,8 +9,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "CUSTOMER_ORDER")
+@SequenceGenerator(name = "orderseq", initialValue = 1)
 public class Order {
-    private @Id @GeneratedValue(strategy = GenerationType.AUTO) @Column(name = "id") Long id;
+    private @Id @GeneratedValue(generator = "orderseq") @Column(name = "id") Long id;
     private Status status;
     private String special;
     // Add drink/bean
