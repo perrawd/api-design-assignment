@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 class BeanNotFoundAdvice {
 
     @ResponseBody
-    @ExceptionHandler(BeanNotFoundException.class)
+    @ExceptionHandler({BeanNotFoundException.class, ResourceIDNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String beanNotFoundHandler(BeanNotFoundException ex) {
+    String beanNotFoundHandler(RuntimeException ex) {
         return ex.getMessage();
     }
 }

@@ -3,6 +3,7 @@ package com.lnu.RESTfulCafe.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lnu.RESTfulCafe.controller.error.ResourceIDNotFoundException;
 import com.lnu.RESTfulCafe.event.bean.BeanAddedEventPublisher;
 import com.lnu.RESTfulCafe.model.bean.Bean;
 import com.lnu.RESTfulCafe.model.bean.BeanModelAssembler;
@@ -10,14 +11,9 @@ import com.lnu.RESTfulCafe.model.bean.BeanRepository;
 import com.lnu.RESTfulCafe.controller.error.BeanNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
@@ -39,6 +35,7 @@ public class BeanController {
         this.assembler = assembler;
     }
 
+    // GET. Collection of all Bean resources.
     @GetMapping("/beans")
     public CollectionModel<EntityModel<Bean>> all() {
 
@@ -51,6 +48,7 @@ public class BeanController {
         return CollectionModel.of(beans, linkTo(methodOn(BeanController.class).all()).withSelfRel());
     }
 
+    // POST. Post of new resource.
     @PostMapping("/beans")
     ResponseEntity<?> newBean(@RequestBody Bean newBean) {
 
@@ -64,15 +62,27 @@ public class BeanController {
                 .body(entityModel);
     }
 
-    @GetMapping("/beans/{id}")
-    public EntityModel<Bean> one(@PathVariable Long id) {
+    // GET. Get single resource with Name path variable.
+    @GetMapping("/beans/{name}")
+    public EntityModel<Bean> oneByName(@PathVariable String name) {
 
-        Bean bean = repository.findById(id)
-                .orElseThrow(() -> new BeanNotFoundException(id));
+        Bean bean = repository.findByName(name)
+                .orElseThrow(() -> new BeanNotFoundException(name));
 
         return assembler.toModel(bean);
     }
 
+    // GET. Get single resource with ID request param.
+    @GetMapping(value = "/beans", params = {"id"})
+    public EntityModel<Bean> one(@RequestParam Long id) {
+
+        Bean bean = repository.findById(id)
+                .orElseThrow(() -> new ResourceIDNotFoundException(id));
+
+        return assembler.toModel(bean);
+    }
+
+    // PUT. Put update of single resource.
     @PutMapping("/beans/{id}")
     ResponseEntity<?> replaceBean(@RequestBody Bean newBean, @PathVariable Long id) {
 
