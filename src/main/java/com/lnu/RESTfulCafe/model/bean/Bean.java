@@ -3,16 +3,13 @@ package com.lnu.RESTfulCafe.model.bean;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity
 @SequenceGenerator(name = "beanseq", initialValue = 1)
 public class Bean {
     private @Id @GeneratedValue(generator = "beanseq") Long id;
-    private String name;
+    private @Column(unique=true) String name;
     private String origin;
     private String region;
     private Variety variety;

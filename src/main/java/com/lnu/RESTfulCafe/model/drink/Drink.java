@@ -14,7 +14,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @SequenceGenerator(name = "drinkseq", initialValue = 1)
 public class Drink {
     private @Id @GeneratedValue(generator = "drinkseq") @Column(name = "id") Long id;
-    private String name;
+    private @Column(unique=true) String name;
     private Type type;
     private Beverage beverage;
     private ArrayList<String> ingredients;
