@@ -30,12 +30,12 @@ public class BeanAddedEventHandler {
                 .filter(subscriber -> subscriber.getEvent() == Event.NEWBEAN)
                 .forEach(subscriber -> {
                     webClient.post()
-                            .uri(subscriber.getUrl())
-                            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                            .body(Mono.just(event.getBean()), Bean.class)
-                            .retrieve()
-                            .bodyToMono(Void.class)
-                            .subscribe();
+                             .uri(subscriber.getUrl())
+                             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                             .body(Mono.just(event.getBean()), Bean.class)
+                             .retrieve()
+                             .bodyToMono(Void.class)
+                             .subscribe();
                 });
     }
 }

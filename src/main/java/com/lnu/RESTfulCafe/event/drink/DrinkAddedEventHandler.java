@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -22,16 +23,19 @@ public class DrinkAddedEventHandler {
     public void handleEvent (DrinkAddedEvent event) {
         List<Subscriber> subscribers = repository.findAll();
 
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        HttpEntity<Drink> entity = new HttpEntity<Drink>(event.getDrink(),headers);
+        WebClient webClient = WebClient.create();
 
         subscribers
                 .stream()
                 .filter(subscriber -> subscriber.getEvent() == Event.NEWDRINK)
                 .forEach(subscriber -> {
-                    restTemplate.exchange(subscriber.getUrl(), HttpMethod.POST, entity, Drink.class);
+                    webClient.post()
+                            .uri(subscriber.getUrl())
+                            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                            .body(Mono.just(event.getDrink()), Drink.class)
+                            .retrieve()
+                            .bodyToMono(Void.class)
+                            .subscribe();
                 });
     }
 }
