@@ -87,7 +87,8 @@ public class EmployeeController {
         EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
 
         return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .ok()
                 .body(entityModel);
     }
 

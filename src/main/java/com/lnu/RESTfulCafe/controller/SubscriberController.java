@@ -75,7 +75,8 @@ public class SubscriberController {
         EntityModel<Subscriber> entityModel = assembler.toModel(updatedSubscriber);
 
         return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .ok()
                 .body(entityModel);
     }
 

@@ -93,7 +93,8 @@ public class DrinkController {
         EntityModel<Drink> entityModel = assembler.toModel(updatedDrink);
 
         return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .ok()
                 .body(entityModel);
     }
 

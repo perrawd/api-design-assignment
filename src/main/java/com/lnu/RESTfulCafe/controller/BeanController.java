@@ -104,7 +104,8 @@ public class BeanController {
         EntityModel<Bean> entityModel = assembler.toModel(updatedBean);
 
         return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+                .ok()
                 .body(entityModel);
     }
 
