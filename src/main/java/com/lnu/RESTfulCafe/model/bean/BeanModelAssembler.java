@@ -14,7 +14,7 @@ public class BeanModelAssembler implements RepresentationModelAssembler<Bean, En
     @Override
     public EntityModel<Bean> toModel(Bean bean) {
         return EntityModel.of(bean,
-                linkTo(methodOn(BeanController.class).one(bean.getId())).withSelfRel(),
+                linkTo(methodOn(BeanController.class).oneBean(bean.getId().toString())).withSelfRel(),
                 linkTo(methodOn(BeanController.class).all()).withRel("beans"));
     }
 }

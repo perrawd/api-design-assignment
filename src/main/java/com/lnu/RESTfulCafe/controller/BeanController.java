@@ -67,36 +67,19 @@ public class BeanController {
     }
 
     // GET. Get single resource with Name path variable.
-    @GetMapping("/beans/{name}")
-    public EntityModel<Bean> oneByName(@PathVariable String name) {
-        Bean bean;
-        Long pathInt;
-        try {
-            pathInt = Long.parseLong(name);
-            bean = repository.findById(pathInt)
-                    .orElseThrow(() -> new ResourceIDNotFoundException(pathInt));
-        } catch (final NumberFormatException e) {
-            bean = repository.findByName(name)
-                    .orElseThrow(() -> new BeanNotFoundException(name));
-        }
-
-        return assembler.toModel(bean);
-    }
-
-    // GET. Get single resource with ID request param.
-    @GetMapping(value = "/beans", params = {"id"})
-    public EntityModel<Bean> one(@RequestParam Long id) {
-
-        Bean bean = repository.findById(id)
-                .orElseThrow(() -> new ResourceIDNotFoundException(id));
+    @GetMapping("/beans/{variable}")
+    public EntityModel<Bean> oneBean(@PathVariable String variable) {
+        Bean bean = this.getBeanByPathVariable(variable);
 
         return assembler.toModel(bean);
     }
 
     // PUT. Put update of single resource.
-    @PutMapping("/beans/{id}")
-    ResponseEntity<?> replaceBean(@RequestBody Bean newBean, @PathVariable String name) {
-        Long id = getBeanByPathVariable(name).get().getId();
+    @PutMapping("/beans/{variable}")
+    ResponseEntity<?> replaceBean(@RequestBody Bean newBean, @PathVariable String variable) {
+
+        Long id = this.getBeanByPathVariable(variable).getId();
+
         Bean updatedBean = repository.findById(id) //
                 .map(bean -> {
                     bean.setName(newBean.getName());
@@ -120,25 +103,23 @@ public class BeanController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/beans/{name}")
-    ResponseEntity<?> deleteBean(@PathVariable String name) {
-        Long l = getBeanByPathVariable(name).get().getId();
-        repository.deleteById(l);
+    @DeleteMapping("/beans/{variable}")
+    ResponseEntity<?> deleteBean(@PathVariable String variable) {
+        Long id = this.getBeanByPathVariable(variable).getId();
+        repository.deleteById(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    Optional<Bean> getBeanByPathVariable(String pathVariable) {
-        Optional<Bean> bean;
-        long pathInt;
-
+    // Get resource by path variable (resource name or ID)
+    Bean getBeanByPathVariable(String pathVariable) {
         try {
-            pathInt = Long.parseLong(pathVariable);
-            bean = repository.findById(pathInt);
+            long pathLong = Long.parseLong(pathVariable);
+            return repository.findById(pathLong)
+                    .orElseThrow(() -> new ResourceIDNotFoundException(pathLong));
         } catch (final NumberFormatException e) {
-            bean = repository.findByName(pathVariable);
+            return repository.findByName(pathVariable)
+                    .orElseThrow(() -> new BeanNotFoundException(pathVariable));
         }
-
-        return bean;
     }
 }
