@@ -69,6 +69,7 @@ public class BeanController {
     // GET. Get single resource with Name path variable.
     @GetMapping("/beans/{variable}")
     public EntityModel<Bean> oneBean(@PathVariable String variable) {
+
         Bean bean = this.getBeanByPathVariable(variable);
 
         return assembler.toModel(bean);
@@ -105,6 +106,7 @@ public class BeanController {
 
     @DeleteMapping("/beans/{variable}")
     ResponseEntity<?> deleteBean(@PathVariable String variable) {
+
         Long id = this.getBeanByPathVariable(variable).getId();
         repository.deleteById(id);
 

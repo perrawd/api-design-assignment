@@ -3,6 +3,8 @@ package com.lnu.RESTfulCafe.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.lnu.RESTfulCafe.controller.error.BeanNotFoundException;
+import com.lnu.RESTfulCafe.controller.error.ResourceIDNotFoundException;
 import com.lnu.RESTfulCafe.event.drink.DrinkAddedEventPublisher;
 import com.lnu.RESTfulCafe.model.drink.Drink;
 import com.lnu.RESTfulCafe.model.drink.DrinkModelAssembler;
@@ -64,17 +66,18 @@ public class DrinkController {
                 .body(entityModel);
     }
 
-    @GetMapping("/drinks/{id}")
-    public EntityModel<Drink> one(@PathVariable Long id) {
+    @GetMapping("/drinks/{variable}")
+    public EntityModel<Drink> one(@PathVariable String variable) {
 
-        Drink drink = repository.findById(id)
-                .orElseThrow(() -> new DrinkNotFoundException(id));
+        Drink drink = this.getDrinkByPathVariable(variable);
 
         return assembler.toModel(drink);
     }
 
-    @PutMapping("/drinks/{id}")
-    ResponseEntity<?> replaceDrink(@RequestBody Drink newDrink, @PathVariable Long id) {
+    @PutMapping("/drinks/{variable}")
+    ResponseEntity<?> replaceDrink(@RequestBody Drink newDrink, @PathVariable String variable) {
+
+        Long id = this.getDrinkByPathVariable(variable).getId();
 
         Drink updatedDrink = repository.findById(id) //
                 .map(drink -> {
@@ -98,11 +101,24 @@ public class DrinkController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/drinks/{id}")
-    ResponseEntity<?> deleteDrink(@PathVariable Long id) {
+    @DeleteMapping("/drinks/{variable}")
+    ResponseEntity<?> deleteDrink(@PathVariable String variable) {
 
+        Long id = this.getDrinkByPathVariable(variable).getId();
         repository.deleteById(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    // Get resource by path variable (resource name or ID)
+    Drink getDrinkByPathVariable(String pathVariable) {
+        try {
+            long pathLong = Long.parseLong(pathVariable);
+            return repository.findById(pathLong)
+                    .orElseThrow(() -> new ResourceIDNotFoundException(pathLong));
+        } catch (final NumberFormatException e) {
+            return repository.findByName(pathVariable)
+                    .orElseThrow(() -> new BeanNotFoundException(pathVariable));
+        }
     }
 }
