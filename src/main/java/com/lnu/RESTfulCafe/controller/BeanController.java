@@ -1,6 +1,7 @@
 package com.lnu.RESTfulCafe.controller;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.lnu.RESTfulCafe.controller.error.ResourceIDNotFoundException;
@@ -18,6 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
+
+import javax.swing.text.html.Option;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -65,9 +69,16 @@ public class BeanController {
     // GET. Get single resource with Name path variable.
     @GetMapping("/beans/{name}")
     public EntityModel<Bean> oneByName(@PathVariable String name) {
-
-        Bean bean = repository.findByName(name)
-                .orElseThrow(() -> new BeanNotFoundException(name));
+        Bean bean;
+        Long pathInt;
+        try {
+            pathInt = Long.parseLong(name);
+            bean = repository.findById(pathInt)
+                    .orElseThrow(() -> new ResourceIDNotFoundException(pathInt));
+        } catch (final NumberFormatException e) {
+            bean = repository.findByName(name)
+                    .orElseThrow(() -> new BeanNotFoundException(name));
+        }
 
         return assembler.toModel(bean);
     }
@@ -84,8 +95,8 @@ public class BeanController {
 
     // PUT. Put update of single resource.
     @PutMapping("/beans/{id}")
-    ResponseEntity<?> replaceBean(@RequestBody Bean newBean, @PathVariable Long id) {
-
+    ResponseEntity<?> replaceBean(@RequestBody Bean newBean, @PathVariable String name) {
+        Long id = getBeanByPathVariable(name).get().getId();
         Bean updatedBean = repository.findById(id) //
                 .map(bean -> {
                     bean.setName(newBean.getName());
@@ -109,11 +120,25 @@ public class BeanController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/beans/{id}")
-    ResponseEntity<?> deleteBean(@PathVariable Long id) {
-
-        repository.deleteById(id);
+    @DeleteMapping("/beans/{name}")
+    ResponseEntity<?> deleteBean(@PathVariable String name) {
+        Long l = getBeanByPathVariable(name).get().getId();
+        repository.deleteById(l);
 
         return ResponseEntity.noContent().build();
+    }
+
+    Optional<Bean> getBeanByPathVariable(String pathVariable) {
+        Optional<Bean> bean;
+        long pathInt;
+
+        try {
+            pathInt = Long.parseLong(pathVariable);
+            bean = repository.findById(pathInt);
+        } catch (final NumberFormatException e) {
+            bean = repository.findByName(pathVariable);
+        }
+
+        return bean;
     }
 }
