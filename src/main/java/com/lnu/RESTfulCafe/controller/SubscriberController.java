@@ -64,6 +64,7 @@ public class SubscriberController {
         Subscriber updatedSubscriber = repository.findById(id) //
                 .map(subscriber -> {
                     subscriber.setUrl(newSubscriber.getUrl());
+                    subscriber.setEvent(newSubscriber.getEvent());
                     return repository.save(subscriber);
                 }) //
                 .orElseGet(() -> {

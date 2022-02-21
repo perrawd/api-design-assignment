@@ -1,5 +1,6 @@
 package com.lnu.RESTfulCafe.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import com.lnu.RESTfulCafe.model.employee.EmployeeModelAssembler;
 import com.lnu.RESTfulCafe.model.employee.EmployeeRepository;
 import com.lnu.RESTfulCafe.controller.error.EmployeeNotFoundException;
 
+import com.lnu.RESTfulCafe.model.employee.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,7 +74,9 @@ public class EmployeeController {
         Employee updatedEmployee = repository.findById(id) //
                 .map(employee -> {
                     employee.setName(newEmployee.getName());
-                    //employee.setRole(newEmployee.getRole());
+                    employee.setFirstName(newEmployee.getFirstName());
+                    employee.setLastName(newEmployee.getLastName());
+                    employee.setRoles((ArrayList<Role>) newEmployee.getRoles());
                     return repository.save(employee);
                 }) //
                 .orElseGet(() -> {

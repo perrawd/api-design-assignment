@@ -89,7 +89,11 @@ public class BeanController {
         Bean updatedBean = repository.findById(id) //
                 .map(bean -> {
                     bean.setName(newBean.getName());
-                    //bean.setRole(newBean.getRole());
+                    bean.setAroma(newBean.getAroma());
+                    bean.setOrigin(newBean.getOrigin());
+                    bean.setRegion(newBean.getRegion());
+                    bean.setReviewed(newBean.getReviewed());
+                    bean.setVariety(newBean.getVariety());
                     return repository.save(bean);
                 }) //
                 .orElseGet(() -> {

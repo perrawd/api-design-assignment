@@ -79,7 +79,10 @@ public class DrinkController {
         Drink updatedDrink = repository.findById(id) //
                 .map(drink -> {
                     drink.setName(newDrink.getName());
-                    //drink.setRole(newDrink.getRole());
+                    drink.setBeverage(newDrink.getBeverage());
+                    drink.setIngredients(newDrink.getIngredients());
+                    drink.setPrice(newDrink.getPrice());
+                    drink.setType(newDrink.getType());
                     return repository.save(drink);
                 }) //
                 .orElseGet(() -> {
