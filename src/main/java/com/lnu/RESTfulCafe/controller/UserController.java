@@ -61,6 +61,19 @@ public class UserController {
                 .body("User created");
     }
 
+    @PostMapping("/customer/register")
+    ResponseEntity<?> newCustomer(@RequestBody User newUser) {
+
+        User newCustomer = userService.saveUser(newUser);
+        userService.addRoleToUser(newCustomer.getUsername(), "ROLE_CUSTOMER");
+
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/customer/register").toUriString());
+
+        return ResponseEntity //
+                .created(uri)
+                .body("Your account has been created");
+    }
+
     @GetMapping("/users/{id}")
     public EntityModel<User> one(@PathVariable Long id) {
 
