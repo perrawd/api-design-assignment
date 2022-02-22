@@ -1,16 +1,14 @@
-package com.lnu.RESTfulCafe.model.employee;
+package com.lnu.RESTfulCafe.model.user;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-import static javax.persistence.GenerationType.AUTO;
-
 @Entity
-@SequenceGenerator(name = "employeeseq", initialValue = 1)
-public class Employee {
-    private @Id @GeneratedValue(generator = "employeeseq") Long id;
+@SequenceGenerator(name = "userseq", initialValue = 1)
+public class User {
+    private @Id @GeneratedValue(generator = "userseq") Long id;
     private String firstName;
     private String lastName;
     private String username;
@@ -18,9 +16,9 @@ public class Employee {
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
-    public Employee () {}
+    public User() {}
 
-    public Employee(Long id, String firstName, String lastName, String username, String password, ArrayList<Role> roles) {
+    public User(Long id, String firstName, String lastName, String username, String password, ArrayList<Role> roles) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -91,8 +89,8 @@ public class Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(lastName, employee.lastName) && Objects.equals(username, employee.username) && Objects.equals(password, employee.password) && Objects.equals(roles, employee.roles);
+        User user = (User) o;
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override

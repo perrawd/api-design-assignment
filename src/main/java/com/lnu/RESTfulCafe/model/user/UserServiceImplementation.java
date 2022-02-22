@@ -1,4 +1,4 @@
-package com.lnu.RESTfulCafe.model.employee;
+package com.lnu.RESTfulCafe.model.user;
 
 
 import lombok.RequiredArgsConstructor;
@@ -16,14 +16,14 @@ import java.util.Collection;
 import java.util.List;
 
 @Service @RequiredArgsConstructor @Transactional @Slf4j
-public class EmployeeServiceImplementation implements EmployeeService, UserDetailsService {
-    private final EmployeeRepository employeeRepository;
+public class UserServiceImplementation implements UserService, UserDetailsService {
+    private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Employee user = employeeRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             log.error("User not found in the database.");
             throw new UsernameNotFoundException("User not found in the database.");
@@ -39,9 +39,9 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
     }
 
     @Override
-    public Employee saveUser(Employee user) {
+    public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return employeeRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
@@ -51,20 +51,20 @@ public class EmployeeServiceImplementation implements EmployeeService, UserDetai
 
     @Override
     public void addRoleToUser(String username, String roleName) {
-        Employee user = employeeRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
 
         user.getRoles().add(role);
     }
 
     @Override
-    public Employee getUser(String username) {
-        return employeeRepository.findByUsername(username);
+    public User getUser(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
-    public List<Employee> getUsers() {
-        return employeeRepository.findAll();
+    public List<User> getUsers() {
+        return userRepository.findAll();
     }
 
 }

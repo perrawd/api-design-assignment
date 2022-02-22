@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.lnu.RESTfulCafe.model.employee.Employee;
-import com.lnu.RESTfulCafe.model.employee.EmployeeModelAssembler;
-import com.lnu.RESTfulCafe.model.employee.EmployeeRepository;
-import com.lnu.RESTfulCafe.controller.error.EmployeeNotFoundException;
+import com.lnu.RESTfulCafe.model.user.User;
+import com.lnu.RESTfulCafe.model.user.UserModelAssembler;
+import com.lnu.RESTfulCafe.model.user.UserRepository;
+import com.lnu.RESTfulCafe.controller.error.UserNotFoundException;
 
-import com.lnu.RESTfulCafe.model.employee.Role;
+import com.lnu.RESTfulCafe.model.user.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,33 +26,33 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-public class EmployeeController {
+public class UserController {
 
-    private final EmployeeRepository repository;
+    private final UserRepository repository;
 
-    private final EmployeeModelAssembler assembler;
+    private final UserModelAssembler assembler;
 
-    EmployeeController(EmployeeRepository repository, EmployeeModelAssembler assembler) {
+    UserController(UserRepository repository, UserModelAssembler assembler) {
         this.repository = repository;
         this.assembler = assembler;
     }
 
     @GetMapping("/employees")
-    public CollectionModel<EntityModel<Employee>> all() {
+    public CollectionModel<EntityModel<User>> all() {
 
-        List<EntityModel<Employee>> employees =
+        List<EntityModel<User>> employees =
                 repository.findAll()
                         .stream()
                         .map(assembler::toModel)
                         .collect(Collectors.toList());
 
-        return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).all()).withSelfRel());
+        return CollectionModel.of(employees, linkTo(methodOn(UserController.class).all()).withSelfRel());
     }
 
     @PostMapping("/employees")
-    ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
+    ResponseEntity<?> newEmployee(@RequestBody User newUser) {
 
-        EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
+        EntityModel<User> entityModel = assembler.toModel(repository.save(newUser));
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
@@ -60,31 +60,31 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees/{id}")
-    public EntityModel<Employee> one(@PathVariable Long id) {
+    public EntityModel<User> one(@PathVariable Long id) {
 
-        Employee employee = repository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(id));
+        User user = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
 
-        return assembler.toModel(employee);
+        return assembler.toModel(user);
     }
 
     @PutMapping("/employees/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+    ResponseEntity<?> replaceEmployee(@RequestBody User newUser, @PathVariable Long id) {
 
-        Employee updatedEmployee = repository.findById(id) //
+        User updatedUser = repository.findById(id) //
                 .map(employee -> {
-                    employee.setName(newEmployee.getName());
-                    employee.setFirstName(newEmployee.getFirstName());
-                    employee.setLastName(newEmployee.getLastName());
-                    employee.setRoles((ArrayList<Role>) newEmployee.getRoles());
+                    employee.setName(newUser.getName());
+                    employee.setFirstName(newUser.getFirstName());
+                    employee.setLastName(newUser.getLastName());
+                    employee.setRoles((ArrayList<Role>) newUser.getRoles());
                     return repository.save(employee);
                 }) //
                 .orElseGet(() -> {
-                    newEmployee.setId(id);
-                    return repository.save(newEmployee);
+                    newUser.setId(id);
+                    return repository.save(newUser);
                 });
 
-        EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
+        EntityModel<User> entityModel = assembler.toModel(updatedUser);
 
         return ResponseEntity //
                 //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //

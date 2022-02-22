@@ -1,4 +1,4 @@
-package com.lnu.RESTfulCafe.model.employee;
+package com.lnu.RESTfulCafe.model.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
