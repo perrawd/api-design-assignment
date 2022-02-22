@@ -41,7 +41,7 @@ public class CustomerController {
         return CollectionModel.of(customers, linkTo(methodOn(CustomerController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/customers")
+    @PostMapping({"/customers", "/customer/register"})
     ResponseEntity<?> newCustomer(@RequestBody Customer newCustomer) {
 
         EntityModel<Customer> entityModel = assembler.toModel(repository.save(newCustomer));
