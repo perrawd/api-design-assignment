@@ -63,6 +63,18 @@ public class UserController {
         return CollectionModel.of(users, linkTo(methodOn(UserController.class).allCustomers()).withSelfRel());
     }
 
+    @GetMapping("/employees")
+    public CollectionModel<EntityModel<User>> allEmployees() {
+
+        List<EntityModel<User>> users =
+                repository.getAllEmployees()
+                        .stream()
+                        .map(assembler::toModel)
+                        .collect(Collectors.toList());
+
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).allEmployees()).withSelfRel());
+    }
+
     @PostMapping("/users")
     ResponseEntity<?> newUser(@RequestBody User newUser) {
 
