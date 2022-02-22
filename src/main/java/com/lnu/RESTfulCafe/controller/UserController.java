@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import com.lnu.RESTfulCafe.model.user.*;
 import com.lnu.RESTfulCafe.controller.error.UserNotFoundException;
 
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,4 +101,24 @@ public class UserController {
 
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/role")
+    public ResponseEntity<Role>saveRole(@RequestBody Role role){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role").toUriString());
+        return ResponseEntity.created(uri).body(userService.saveRole(role));
+    }
+
+    @PostMapping("/role/addtouser")
+    public ResponseEntity<?>saveRole(@RequestBody RoleToUserForm form){
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
+        userService.addRoleToUser(form.getUsername(), form.getRolename());
+        return ResponseEntity.ok().build();
+    }
+
+}
+
+@Data
+class RoleToUserForm {
+    private String username;
+    private String rolename;
 }
