@@ -39,29 +39,29 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/employees")
+    @GetMapping("/users")
     public CollectionModel<EntityModel<User>> all() {
 
-        List<EntityModel<User>> employees =
+        List<EntityModel<User>> users =
                 repository.findAll()
                         .stream()
                         .map(assembler::toModel)
                         .collect(Collectors.toList());
 
-        return CollectionModel.of(employees, linkTo(methodOn(UserController.class).all()).withSelfRel());
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/employees")
-    ResponseEntity<?> newEmployee(@RequestBody User newUser) {
+    @PostMapping("/users")
+    ResponseEntity<?> newUser(@RequestBody User newUser) {
 
         EntityModel<User> entityModel = assembler.toModel(userService.saveUser(newUser));
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/employees").toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/users").toUriString());
         return ResponseEntity //
                 .created(uri)
                 .body("User created");
     }
 
-    @GetMapping("/employees/{id}")
+    @GetMapping("/users/{id}")
     public EntityModel<User> one(@PathVariable Long id) {
 
         User user = repository.findById(id)
@@ -70,16 +70,16 @@ public class UserController {
         return assembler.toModel(user);
     }
 
-    @PutMapping("/employees/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody User newUser, @PathVariable Long id) {
+    @PutMapping("/users/{id}")
+    ResponseEntity<?> replaceUser(@RequestBody User newUser, @PathVariable Long id) {
 
         User updatedUser = repository.findById(id) //
-                .map(employee -> {
-                    employee.setName(newUser.getName());
-                    employee.setFirstName(newUser.getFirstName());
-                    employee.setLastName(newUser.getLastName());
-                    employee.setRoles((ArrayList<Role>) newUser.getRoles());
-                    return repository.save(employee);
+                .map(user -> {
+                    user.setName(newUser.getName());
+                    user.setFirstName(newUser.getFirstName());
+                    user.setLastName(newUser.getLastName());
+                    user.setRoles((ArrayList<Role>) newUser.getRoles());
+                    return repository.save(user);
                 }) //
                 .orElseGet(() -> {
                     newUser.setId(id);
@@ -94,8 +94,8 @@ public class UserController {
                 .body("User updated.");
     }
 
-    @DeleteMapping("/employees/{id}")
-    ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
+    @DeleteMapping("/users/{id}")
+    ResponseEntity<?> deleteUser(@PathVariable Long id) {
 
         repository.deleteById(id);
 

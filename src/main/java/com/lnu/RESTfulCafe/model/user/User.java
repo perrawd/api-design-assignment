@@ -1,5 +1,7 @@
 package com.lnu.RESTfulCafe.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,7 +14,7 @@ public class User {
     private String firstname;
     private String lastname;
     private @Column(unique=true) String username;
-    private String password;
+    private @JsonIgnore String password;
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
