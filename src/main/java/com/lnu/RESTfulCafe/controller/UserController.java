@@ -1,15 +1,13 @@
 package com.lnu.RESTfulCafe.controller;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.lnu.RESTfulCafe.model.user.User;
-import com.lnu.RESTfulCafe.model.user.UserModelAssembler;
-import com.lnu.RESTfulCafe.model.user.UserRepository;
+import com.lnu.RESTfulCafe.model.user.*;
 import com.lnu.RESTfulCafe.controller.error.UserNotFoundException;
 
-import com.lnu.RESTfulCafe.model.user.Role;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -29,12 +29,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController {
 
     private final UserRepository repository;
-
     private final UserModelAssembler assembler;
+    private final UserService userService;
 
-    UserController(UserRepository repository, UserModelAssembler assembler) {
+    UserController(UserRepository repository, UserModelAssembler assembler, UserService userService) {
         this.repository = repository;
         this.assembler = assembler;
+        this.userService = userService;
     }
 
     @GetMapping("/employees")
@@ -52,11 +53,11 @@ public class UserController {
     @PostMapping("/employees")
     ResponseEntity<?> newEmployee(@RequestBody User newUser) {
 
-        EntityModel<User> entityModel = assembler.toModel(repository.save(newUser));
-
+        EntityModel<User> entityModel = assembler.toModel(userService.saveUser(newUser));
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/employees").toUriString());
         return ResponseEntity //
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+                .created(uri)
+                .body("User created");
     }
 
     @GetMapping("/employees/{id}")
@@ -89,7 +90,7 @@ public class UserController {
         return ResponseEntity //
                 //.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
                 .ok()
-                .body(entityModel);
+                .body("User updated.");
     }
 
     @DeleteMapping("/employees/{id}")

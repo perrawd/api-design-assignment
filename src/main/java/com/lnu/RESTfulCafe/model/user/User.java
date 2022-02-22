@@ -9,19 +9,19 @@ import java.util.Objects;
 @SequenceGenerator(name = "userseq", initialValue = 1)
 public class User {
     private @Id @GeneratedValue(generator = "userseq") Long id;
-    private String firstName;
-    private String lastName;
-    private String username;
+    private String firstname;
+    private String lastname;
+    private @Column(unique=true) String username;
     private String password;
     @ManyToMany(fetch= FetchType.EAGER)
     private Collection<Role> roles = new ArrayList<>();
 
     public User() {}
 
-    public User(Long id, String firstName, String lastName, String username, String password, ArrayList<Role> roles) {
+    public User(Long id, String firstname, String lastname, String username, String password, ArrayList<Role> roles) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
         this.password = password;
         this.roles = roles;
@@ -36,29 +36,29 @@ public class User {
     }
 
     public String getName() {
-        return this.firstName + " " + this.lastName;
+        return this.firstname + " " + this.lastname;
     }
 
     public void setName(String name) {
         String[] parts = name.split(" ");
-        this.firstName = parts[0];
-        this.lastName = parts[1];
+        this.firstname = parts[0];
+        this.lastname = parts[1];
     }
 
     public String getFirstName() {
-        return firstName;
+        return firstname;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String firstname) {
+        this.firstname = firstname;
     }
 
     public String getLastName() {
-        return lastName;
+        return lastname;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getUsername() {
@@ -90,11 +90,11 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) && Objects.equals(firstname, user.firstname) && Objects.equals(lastname, user.lastname) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, username, password, roles);
+        return Objects.hash(id, firstname, lastname, username, password, roles);
     }
 }
