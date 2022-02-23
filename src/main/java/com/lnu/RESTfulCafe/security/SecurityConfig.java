@@ -32,11 +32,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
-        customAuthenticationFilter.setFilterProcessesUrl("/employees/login");
+        customAuthenticationFilter.setFilterProcessesUrl("/login");
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        //http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/beans/**", "/drinks/**", "/employees/**").hasAnyAuthority("ROLE_USER","ROLE_ADMIN");
+
+        // Restricted GET methods (for Employees and Admin)
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/users/**", "/roles/**", "/subscriptions/**", "/employees/**", "/customers/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+
+        // Restricted access for Subscription URIs
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/subscriptions/**", "/subscribe/**").hasAnyAuthority("ROLE_CUSTOMER","ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/subscriptions/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/subscriptions/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+
+        // Restricted POST, PUT, DELETE routes
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/beans/**", "/drinks/**", "/users/**", "/roles/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.PUT, "/beans/**", "/drinks/**", "/users/**", "/roles/**", "/orders/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.DELETE, "/beans/**", "/drinks/**", "/users/**", "/roles/**", "/orders/**").hasAnyAuthority("ROLE_EMPLOYEE","ROLE_MANAGER","ROLE_ADMIN");
+
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }

@@ -146,13 +146,13 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/role")
+    @PostMapping("/roles")
     public ResponseEntity<Role>saveRole(@RequestBody Role role){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role").toUriString());
         return ResponseEntity.created(uri).body(userService.saveRole(role));
     }
 
-    @PostMapping("/role/addtouser")
+    @PostMapping("/roles/addtouser")
     public ResponseEntity<?>saveRole(@RequestBody RoleToUserForm form){
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/role/save").toUriString());
         userService.addRoleToUser(form.getUsername(), form.getRolename());
