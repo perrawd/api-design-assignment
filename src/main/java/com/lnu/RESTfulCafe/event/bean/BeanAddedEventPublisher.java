@@ -3,6 +3,7 @@ package com.lnu.RESTfulCafe.event.bean;
 import com.lnu.RESTfulCafe.model.bean.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +15,7 @@ public class BeanAddedEventPublisher {
         this.publisher = publisher;
     }
 
-    public void publishEvent(Bean bean) {
+    public void publishEvent(EntityModel<Bean> bean) {
         publisher.publishEvent(new BeanAddedEvent(this, bean));
     }
 }

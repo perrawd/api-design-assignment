@@ -14,7 +14,6 @@ public class SubscriberModelAssembler implements RepresentationModelAssembler<Su
     @Override
     public EntityModel<Subscriber> toModel(Subscriber subscriber) {
         return EntityModel.of(subscriber,
-                linkTo(methodOn(SubscriberController.class).one(subscriber.getId())).withSelfRel(),
-                linkTo(methodOn(SubscriberController.class).all()).withRel("subscribers"));
+                linkTo(methodOn(SubscriberController.class).one(subscriber.getId())).withSelfRel());
     }
 }

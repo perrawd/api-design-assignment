@@ -59,7 +59,7 @@ public class DrinkController {
         EntityModel<Drink> entityModel = assembler.toModel(repository.save(newDrink));
 
         // Publish event with Drink.
-        publisher.publishEvent(newDrink);
+        publisher.publishEvent(entityModel);
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //

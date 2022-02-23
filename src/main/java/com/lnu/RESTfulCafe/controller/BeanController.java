@@ -59,7 +59,7 @@ public class BeanController {
         EntityModel<Bean> entityModel = assembler.toModel(repository.save(newBean));
 
         // Publish event with Bean.
-        publisher.publishEvent(newBean);
+        publisher.publishEvent(entityModel);
 
         return ResponseEntity //
                 .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
