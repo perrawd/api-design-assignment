@@ -32,7 +32,8 @@ public class BeanAddedEventHandler {
                 .forEach(subscriber -> {
                     webClient.post()
                              .uri(subscriber.getUrl())
-                             .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                             .header("x-app-secret", subscriber.getSecret())
+                             .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                              .body(Mono.just(event.getBean()), Bean.class)
                              .retrieve()
                              .onStatus(HttpStatus::is4xxClientError, response -> {

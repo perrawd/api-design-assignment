@@ -30,9 +30,11 @@ public class DrinkAddedEventHandler {
                 .stream()
                 .filter(subscriber -> subscriber.getEvent() == Event.NEWDRINK)
                 .forEach(subscriber -> {
+
                     webClient.post()
                             .uri(subscriber.getUrl())
-                            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                            .header("x-app-secret", subscriber.getSecret())
+                            .contentType(MediaType.valueOf(MediaType.APPLICATION_JSON_VALUE))
                             .body(Mono.just(event.getDrink()), Drink.class)
                             .retrieve()
                             .onStatus(HttpStatus::is4xxClientError, response -> {
