@@ -13,6 +13,7 @@ import com.lnu.RESTfulCafe.controller.error.BeanNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,6 +56,12 @@ public class BeanController {
     // POST. Post of new resource.
     @PostMapping("/beans")
     ResponseEntity<?> newBean(@RequestBody Bean newBean) {
+
+        if (repository.findByName(newBean.getName()).isPresent()) {
+            return ResponseEntity //
+                    .status(HttpStatus.CONFLICT)
+                    .body("A resource with this name already exists.");
+        }
 
         EntityModel<Bean> entityModel = assembler.toModel(repository.save(newBean));
 

@@ -12,6 +12,7 @@ import com.lnu.RESTfulCafe.model.drink.DrinkRepository;
 import com.lnu.RESTfulCafe.controller.error.DrinkNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +56,12 @@ public class DrinkController {
 
     @PostMapping("/drinks")
     ResponseEntity<?> newDrink(@RequestBody Drink newDrink) {
+
+        if (repository.findByName(newDrink.getName()).isPresent()) {
+            return ResponseEntity //
+                    .status(HttpStatus.CONFLICT)
+                    .body("A resource with this name already exists.");
+        }
 
         EntityModel<Drink> entityModel = assembler.toModel(repository.save(newDrink));
 

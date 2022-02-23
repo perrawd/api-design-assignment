@@ -9,6 +9,7 @@ import com.lnu.RESTfulCafe.model.user.*;
 import com.lnu.RESTfulCafe.controller.error.UserNotFoundException;
 
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,13 +86,19 @@ public class UserController {
                 .body("User created");
     }
 
-    @PostMapping("/customer/register")
+    @PostMapping("/register")
     ResponseEntity<?> newCustomer(@RequestBody User newUser) {
+
+        if (repository.findByUsername(newUser.getUsername()) != null) {
+            return ResponseEntity //
+                    .status(HttpStatus.CONFLICT)
+                    .body("The username already exists. Please choose another username.");
+        }
 
         User newCustomer = userService.saveUser(newUser);
         userService.addRoleToUser(newCustomer.getUsername(), "ROLE_CUSTOMER");
 
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/customer/register").toUriString());
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/register").toUriString());
 
         return ResponseEntity //
                 .created(uri)
