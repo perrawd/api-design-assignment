@@ -15,7 +15,7 @@ public class DrinkModelAssembler implements RepresentationModelAssembler<Drink, 
     @Override
     public EntityModel<Drink> toModel(Drink drink) {
         return EntityModel.of(drink,
-                linkTo(methodOn(DrinkController.class).one(drink.getId().toString())).withSelfRel(),
+                linkTo(methodOn(DrinkController.class).one(drink.getName().toLowerCase())).withSelfRel(),
                 linkTo(methodOn(DrinkController.class).all()).withRel("drinks"));
     }
 }
