@@ -65,6 +65,7 @@ public class SubscriberController {
                 .map(subscriber -> {
                     subscriber.setUrl(newSubscriber.getUrl());
                     subscriber.setEvent(newSubscriber.getEvent());
+                    subscriber.setSecret(newSubscriber.getSecret());
                     return repository.save(subscriber);
                 }) //
                 .orElseGet(() -> {

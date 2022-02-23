@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@SequenceGenerator(name = "userseq", initialValue = 1)
+@SequenceGenerator(name = "userseq", initialValue = 1, allocationSize=1)
 public class User {
     private @Id @GeneratedValue(generator = "userseq") Long id;
     private String firstname;
@@ -48,19 +48,19 @@ public class User {
         this.lastname = parts[1];
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
     }
 
-    public void setFirstName(String firstname) {
+    public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
 
-    public String getLastName() {
+    public String getLastname() {
         return lastname;
     }
 
-    public void setLastName(String lastname) {
+    public void setLastname(String lastname) {
         this.lastname = lastname;
     }
 

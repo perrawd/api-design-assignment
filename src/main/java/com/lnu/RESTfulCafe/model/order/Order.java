@@ -9,7 +9,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "CUSTOMER_ORDER")
-@SequenceGenerator(name = "orderseq", initialValue = 1)
+@SequenceGenerator(name = "orderseq", initialValue = 1, allocationSize=1)
 public class Order {
     private @Id @GeneratedValue(generator = "orderseq") @Column(name = "id") Long id;
     private Status status;

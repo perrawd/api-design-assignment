@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@SequenceGenerator(name = "beanseq", initialValue = 1)
+@SequenceGenerator(name = "beanseq", initialValue = 1, allocationSize=1)
 public class Bean {
     private @Id @GeneratedValue(generator = "beanseq") Long id;
     private @Column(unique=true) String name;

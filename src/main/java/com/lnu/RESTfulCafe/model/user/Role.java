@@ -3,13 +3,15 @@ package com.lnu.RESTfulCafe.model.user;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import java.util.Objects;
 
 import static javax.persistence.GenerationType.AUTO;
 
 @Entity
+@SequenceGenerator(name = "roleseq", initialValue = 1, allocationSize=1)
 public class Role {
-    private @Id @GeneratedValue(strategy = AUTO) Long id;
+    private @Id @GeneratedValue(generator = "roleseq") Long id;
     private String name;
 
     public Role () {}
