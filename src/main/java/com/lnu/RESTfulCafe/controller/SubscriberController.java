@@ -27,7 +27,7 @@ public class SubscriberController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/subscribers")
+    @GetMapping("/subscriptions")
     public CollectionModel<EntityModel<Subscriber>> all() {
 
         List<EntityModel<Subscriber>> subscribers =
@@ -39,7 +39,7 @@ public class SubscriberController {
         return CollectionModel.of(subscribers, linkTo(methodOn(SubscriberController.class).all()).withSelfRel());
     }
 
-    @PostMapping("/subscribers")
+    @PostMapping({"/subscriptions", "/subscribe"})
     ResponseEntity<?> newSubscriber(@RequestBody Subscriber newSubscriber) {
 
         EntityModel<Subscriber> entityModel = assembler.toModel(repository.save(newSubscriber));
@@ -49,7 +49,7 @@ public class SubscriberController {
                 .body(entityModel);
     }
 
-    @GetMapping("/subscribers/{id}")
+    @GetMapping("/subscriptions/{id}")
     public EntityModel<Subscriber> one(@PathVariable Long id) {
 
         Subscriber subscriber = repository.findById(id)
@@ -58,7 +58,7 @@ public class SubscriberController {
         return assembler.toModel(subscriber);
     }
 
-    @PutMapping("/subscribers/{id}")
+    @PutMapping("/subscriptions/{id}")
     ResponseEntity<?> replaceSubscriber(@RequestBody Subscriber newSubscriber, @PathVariable Long id) {
 
         Subscriber updatedSubscriber = repository.findById(id) //
@@ -81,7 +81,7 @@ public class SubscriberController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/subscribers/{id}")
+    @DeleteMapping("/subscriptions/{id}")
     ResponseEntity<?> deleteSubscriber(@PathVariable Long id) {
 
         repository.deleteById(id);
