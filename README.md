@@ -1,28 +1,28 @@
-#RESTful Café API
+# RESTful Café API
 
 [https://rawdin.se/restfulcafe](https://rawdin.se/restfulcafe)  
 [Postman collection](collection.json)  
 [API documentation](Rawdin_API_Documentation.txt) (also available below)
 
-##Introduction
+## Introduction
 
 RESTful Cafe is a coffeeshop that specializes in the finest coffee beans from around the world and offers great coffee drinks made with the best quality beans.  
 The cafe offers an API for its employees and customers that lists available coffee beans and drinks available on its menu.  
 Customers can register for an account and login to the application in order to subscribe and get notified when new coffee beans or drinks are added to the menu.  
 The café employs a number of employees that handles the coffee beans that are available and the drinks on the menu. These employees need to be assigned an account in order to manage these resources.
 
-##The application
+## The application
 
 To get out of my comfort zone of working with JavaScript and Node.js, I decided to build this project in Java. The application is written with Java 17, Maven, Spring Framework and JWT-auth package with a MySQL database as the backend.
 The application is deployed on my personal server and domain (https://rawdin.se). The traffic and communication with the API should be done with HTTPS.
 
-##HATEOAS
+## HATEOAS
 
 From the entry point of the API, users are greeted with a list of sub-directories that are publicly available for users (beans, drinks and orders). Each of these sub-directories contain a link that makes it possible for the users to browse through the resources of each sub-directory. Some of the directories of the API are not listed in the entry point since they may contain information regarding registered users and employees, these are therefore protected (and hidden) for only the user groups.  
 Each sub-directory of the API provides a list of the resources through the GET method. With an identifier attached to the URI, users can also view a specific resource. Authorized users can additionally perform POST, PUT and DELETE actions on the resources.
 Using hypermedia, each resource has links to its target URI (self) and its link relation type (or parent directory) (rel). This makes the API browsable and the users can navigate and traverse through resources in similar fashion as with web pages or web applications.
 
-##Multiple representations of the resources
+## Multiple representations of the resources
 
 The Bean and Drink resources can be accessed through two different types of identifiers, the ID or name of the resources. I chose to design these URIs this way since the initial way of only being able to access the resources by their IDs as identifier didn’t feel so “user-friendly”. When the user tries to access a specific resource with a valid URI, the application will verify if the identifier is a numeric ID or name string and will find it accordingly.
 
@@ -31,18 +31,18 @@ Both of these URIs point to the same resource.
 ```https://rawdin.se/restfulcafe/beans/1```
 ```https://rawdin.se/restfulcafe/beans/sidamo```
 
-##Webhooks
+## Webhooks
 
 Registered customers can sign up for subscriptions of new beans and drinks that are added. When users subscribe for these events through the ```https://rawdin.se/subscribe``` URI, they must specify the URI to receive the subscription on, the event that they want to subscribe to and a secret to be used with the webhook. The available events are "NEWBEAN" and "NEWDRINK". Only registered users are allowed to sign up for the webhooks subscriptions. These subscriptions are then stored in the database. When any of the events is triggered, the application will loop through all subscribers, make a POST request with the resource (together with HATEOAS links) that has been added as the payload. The secret that was provided by the user will be attached to the ```x-app-secret``` header in the POST request.
 When I initially wrote the webhook functionality, it was done in a blocking way and when there were many subscribers to manage, the process of adding a resource took a longer time. I therefore rewrote this and the sequence of sending the POST requests is now done asynchronously.
 
-##Security and Authentication/Authorization
+## Security and Authentication/Authorization
 
 When creating an account in the application, the user needs to be assigned with a role (customer, employee, manager, or administrator). Many of the applications methods and routes are limited for these user roles. Most of the POST, PUT and DELETE methods are restricted for registered users, the only exceptions for this are the register and order routes (both POST).  
 When a new account is registered in the application, the provided password is encrypted using ```bcrypt``` hashing function. Authentication and authorization in the application are managed through the usage of JWT tokens. When a user properly logins to the application, an access and refresh token is provided for the user to perform the restricted actions. The JWT token has a payload containing the username, role, and lifetime of the token. The access token has a lifetime of 10 minutes before it expires. A new access token can be obtained after it expires with the refresh token that is provided. This refresh token has a longer lifespan of 30 minutes. The secret key that is used is a random 20 character (numeric and alphabetical) long string and is passed to the application through an environment variable.
 I may have wanted to try with OAuth/Social Login for this assignment but found it to possibly be complicated to implement with the learning curve required.
 
-##Assignment reflection and on what could be improved
+## Assignment reflection and on what could be improved
 
 Working with this assignment has given me the opportunity to further explore REST API and discovering new concepts such as HATEOAS. Having touched on working with building an API before, this assignment gave me additional experience and a deeper understanding of designing APIs. I got to explore new technologies such as the Spring framework which I understand is a widely used framework for building APIs in the industry.  
 As one of the improvements that I may have wanted to implement is additional HATEOAS links for the resources such as next and previous links. I had some challenges implementing the functionality of this properly, so it was unfortunately left out.  
