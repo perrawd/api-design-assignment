@@ -1,0 +1,3969 @@
+{
+	"info": {
+		"_postman_id": "46a8653d-b150-4a0a-854d-8efa70f96e84",
+		"name": "Bean Production",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/beans",
+			"item": [
+				{
+					"name": "/beans",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans oneResourceByID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"origin\",",
+									"      \"region\",",
+									"      \"variety\",",
+									"      \"aroma\",",
+									"      \"reviewed\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/1",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans oneResourceByName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"origin\",",
+									"      \"region\",",
+									"      \"variety\",",
+									"      \"aroma\",",
+									"      \"reviewed\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/sidamo",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"sidamo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans oneResourceNotFound",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Response to include resource not found message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"Could not find resource with ID: \");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/234234234",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"234234234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Java\",\n    \"origin\": \"Papua New Guinea\",\n    \"region\": \"Asia\",\n    \"variety\": \"ROBUSTA\",\n    \"aroma\": [\"Floral\", \"Caramel\"],\n    \"reviewed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"origin\",",
+									"      \"region\",",
+									"      \"variety\",",
+									"      \"aroma\",",
+									"      \"reviewed\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Java\",\n    \"origin\": \"Papua New Guinea\",\n    \"region\": \"Asia\",\n    \"variety\": \"ROBUSTA\",\n    \"aroma\": [\"Floral\", \"Caramel\"],\n    \"reviewed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans conflictingName",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", () => {",
+									"  pm.expect(pm.response.code).to.eql(409);",
+									"});",
+									"",
+									"pm.test(\"Response to include resource name already exist message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"A resource with this name already exists.\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Sidamo\",\n    \"origin\": \"Ethiopia\",\n    \"region\": \"Africa\",\n    \"variety\": \"ROBUSTA\",\n    \"aroma\": [\"Floral\", \"Slight Woody\", \"Lemon\", \"Cane Sugar\", \"Berries\"],\n    \"reviewed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SidamoNoBerriesAroma\",\n    \"origin\": \"Nigeria\",\n    \"region\": \"Africa\",\n    \"variety\": \"ROBUSTA\",\n    \"aroma\": [\"Floral\", \"Slight Woody\", \"Lemon\", \"Cane Sugar\"],\n    \"reviewed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"origin\",",
+									"      \"region\",",
+									"      \"variety\",",
+									"      \"aroma\",",
+									"      \"reviewed\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"SidamoNoBerriesAroma\",\n    \"origin\": \"Nigeria\",\n    \"region\": \"Africa\",\n    \"variety\": \"ROBUSTA\",\n    \"aroma\": [\"Floral\", \"Slight Woody\", \"Lemon\", \"Cane Sugar\"],\n    \"reviewed\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/13",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/sidamo11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"sidamo11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/beans",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"  pm.expect(pm.response.code).to.eql(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/beans/13",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"beans",
+								"13"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/drinks",
+			"item": [
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks oneResourceByID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"type\",",
+									"      \"beverage\",",
+									"      \"ingredients\",",
+									"      \"price\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/1",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks oneResourceByName",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"type\",",
+									"      \"beverage\",",
+									"      \"ingredients\",",
+									"      \"price\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/espresso",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"espresso"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks oneResourceNotFound",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", () => {",
+									"  pm.expect(pm.response.code).to.eql(404);",
+									"});",
+									"",
+									"pm.test(\"Response to include resource not found message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"Could not find resource with ID: \");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/234235345",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"234235345"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cafecito\",\n    \"type\": \"HOT\",\n    \"beverage\": \"COFFEE\",\n    \"ingredients\": [\"Coffee\",\"milk\"],\n    \"price\": 12.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"name\",",
+									"      \"type\",",
+									"      \"beverage\",",
+									"      \"ingredients\",",
+									"      \"price\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cafecito\",\n    \"type\": \"HOT\",\n    \"beverage\": \"COFFEE\",\n    \"ingredients\": [\"Kenya AA Coffee\", \"Milk\", \"Chocolate syrup\"],\n    \"price\": 18.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks conflictingName",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", () => {",
+									"  pm.expect(pm.response.code).to.eql(409);",
+									"});",
+									"",
+									"pm.test(\"Response to include resource name already exist message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"A resource with this name already exists.\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Mocha\",\n    \"type\": \"HOT\",\n    \"beverage\": \"COFFEE\",\n    \"ingredients\": [\"Coffee\",\"milk\"],\n    \"price\": 12.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cafecito\",\n    \"type\": \"COLD\",\n    \"beverage\": \"COFFEE\",\n    \"ingredients\": [\"Coffee\",\"milk\"],\n    \"price\": 15.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/beandemo/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Cafecito\",\n    \"type\": \"COLD\",\n    \"beverage\": \"COFFEE\",\n    \"ingredients\": [\"Coffee\",\"milk\"],\n    \"price\": 15.00\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/13",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/drinks",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"  pm.expect(pm.response.code).to.eql(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/drinks/13",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"drinks",
+								"13"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/login",
+			"item": [
+				{
+					"name": "/login incorrectCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {",
+									"  pm.expect(pm.response.code).to.eql(401);",
+									"});",
+									"",
+									"pm.test(\"Response to include error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "customerdemo",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345678910",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/login",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login noCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 401\", () => {",
+									"  pm.expect(pm.response.code).to.eql(401);",
+									"});",
+									"",
+									"pm.test(\"Response to include error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "customerdemo",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "12345678910",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/login",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes access_token\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"access_token\");",
+									"});",
+									"",
+									"pm.test(\"Response includes refresh_token\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"refresh_token\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "demoemployee",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "xmAGQ78jSt4YimsL",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/login",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/login/refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes new access_token\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"access_token\");",
+									"});",
+									"",
+									"pm.test(\"Response includes refresh_token\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"refresh_token\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    pm.environment.set('refresh_token', response.json().refresh_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{refresh_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/login/refresh",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"login",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/register",
+			"item": [
+				{
+					"name": "/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response to include sucessful account creation message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"Your account has been created\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"firstname\": \"demo\",\n    \"lastname\": \"customer\",\n    \"username\": \"customerdemo1\",\n    \"password\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/register",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/register conflictingUsername",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 409\", () => {",
+									"  pm.expect(pm.response.code).to.eql(409);",
+									"});",
+									"",
+									"pm.test(\"Response to include resource name already exist message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"The username already exists. Please choose another username.\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"firstname\": \"demo\",\n    \"lastname\": \"customer\",\n    \"username\": \"customerdemo123\",\n    \"password\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/register",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/employees",
+			"item": [
+				{
+					"name": "/employees withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/employees",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/employees",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/employees",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/customers",
+			"item": [
+				{
+					"name": "/customers withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/customers",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/customers",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/customers",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"customers"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/users",
+			"item": [
+				{
+					"name": "/users withNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"firstName\": \"demo\",\n    \"lastName\": \"employee\",\n    \"username\": \"demoemployee2\",\n    \"password\": 12345\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response to include sucessful account creation message\", () => {",
+									"  pm.expect(pm.response.text()).to.include(\"User created\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"firstname\": \"demo\",\n    \"lastname\": \"user\",\n    \"username\": \"demouser1\",\n    \"password\": \"xmAGQ78jSt4YimsL\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    //console.log(response.json());",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \n    \"firstname\": \"demo\",\n    \"lastname\": \"employee\",\n    \"username\": \"demoemployee25\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/12",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    //console.log(response.json());",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"  pm.expect(pm.response.code).to.eql(204);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/12",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/roles/addtouser withNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"demouser1\",\n    \"rolename\": \"ROLE_EMPLOYEE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/roles",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/users/roles/addtouser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    //console.log(response.json());",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"demouser1\",\n    \"rolename\": \"ROLE_EMPLOYEE\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/users/roles/addtouser",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"users",
+								"roles",
+								"addtouser"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/subscriptions",
+			"item": [
+				{
+					"name": "/subscribe withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\" https://webhook.site/78172ce0-bfd5-42e2-b5d1-42f6b3f8d406\",\n    \"event\":\"NEWBEAN\",\n    \"secret\": \"TheSecret123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscribe/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscribe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response does not include secret\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.not.have.property(\"secret\");",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"url\",",
+									"      \"event\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\"https://webhook.site/439aa655-c98e-48dc-bcd7-2c0f960df2d3\",\n    \"event\":\"NEWBEAN\",\n    \"secret\": \"TheSecret123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscribe/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscribe",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions withNoAuth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {",
+									"  pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"pm.test(\"Response includes _links property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"_links\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson._links).to.have.property(\"self\");",
+									"});",
+									"",
+									"pm.test(\"Response includes self href\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  console.log(pm.request.url)",
+									"  pm.expect(responseJson._links.self).to.have.property(\"href\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\" https://webhook.site/78172ce0-bfd5-42e2-b5d1-42f6b3f8d406\",\n    \"event\":\"NEWBEAN\",\n    \"secret\": \"TheSecret123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", () => {",
+									"  pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Response to not include secret\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.not.have.property(\"secret\");",
+									"});",
+									"",
+									"pm.test(\"Response to include all attributes\", () => {",
+									"  pm.expect(pm.response.json()).to.have.all.keys(",
+									"      \"id\",",
+									"      \"url\",",
+									"      \"event\",",
+									"      \"_links\"",
+									"      );",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\":\" https://webhook.site/78172ce0-bfd5-42e2-b5d1-42f6b3f8d406\",\n    \"event\":\"NEWBEAN\",\n    \"secret\": \"TheSecret123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"https://webhook.site/78172ce0-bfd5-42e2-b5d1-42f6b3f8d406\",\n    \"event\":\"NEWDRINK\",\n    \"secret\": \"TheSecret123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/4",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/beandemo/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'admin'},",
+									"      { key: 'password', value: '12345'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    //console.log(response.json());",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"url\": \"https://webhook.site/78172ce0-bfd5-42e2-b5d1-42f6b3f8d4062323\",\n    \"event\":\"NEWDRINK\",\n    \"secret\": \"TheSecret1232323\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/5",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions withNoAuth",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", () => {",
+									"  pm.expect(pm.response.code).to.eql(403);",
+									"});",
+									"",
+									"pm.test(\"Response to include error property\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson).to.have.property(\"error\");",
+									"});",
+									"",
+									"pm.test(\"Response to show status and error message\", () => {",
+									"  const responseJson = pm.response.json();",
+									"  pm.expect(responseJson.status).to.eql(403);",
+									"  pm.expect(responseJson.error).to.eql(\"Forbidden\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/subscriptions",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    console.log(response.json().access_token);",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", () => {",
+									"  pm.expect(pm.response.code).to.eql(204);",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/subscriptions/11",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"subscriptions",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "orders",
+			"item": [
+				{
+					"name": "/orders withNoAuth",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"PREPARING\",\n    \"special\": \"This is an special order with extra milk.\",\n    \"drink\": {\"id\":5}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders 2",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"PREPARING\",\n    \"special\": \"This is an special order with extra milk.\",\n    \"drink\": {\"id\":6}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/{id}/cancel",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders/5/cancel",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders",
+								"5",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/{id}/complete",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"const options = {",
+									"  url:  'https://rawdin.se/restfulcafe/login', ",
+									"  method: 'POST',",
+									"  header: {",
+									"    'Accept': '*/*',",
+									"    'Content-Type': 'application/x-www-form-urlencoded',",
+									"  },",
+									"  body: {",
+									"    mode: 'urlencoded',",
+									"    urlencoded : [",
+									"      { key: 'username', value: 'demoemployee'},",
+									"      { key: 'password', value: 'xmAGQ78jSt4YimsL'},",
+									"    ]",
+									"  }",
+									"};",
+									"",
+									"pm.sendRequest(options, function (err, response) {",
+									"    pm.environment.set('access_token', response.json().access_token);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "https://rawdin.se/restfulcafe/orders/6/complete",
+							"protocol": "https",
+							"host": [
+								"rawdin",
+								"se"
+							],
+							"path": [
+								"restfulcafe",
+								"orders",
+								"6",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/restfulcafe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"  pm.expect(pm.response.text()).to.include(\"_embedded\");",
+							"});",
+							"",
+							"pm.test(\"Response to include _embedded\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson).to.have.key(\"_embedded\");",
+							"});",
+							"",
+							"pm.test(\"Directories to include all keys\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  responseJson._embedded.navLinkList.forEach(dir => {",
+							"      pm.expect(dir).to.have.all.keys(\"name\", \"description\", \"_links\");",
+							"  })",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://rawdin.se/restfulcafe",
+					"protocol": "https",
+					"host": [
+						"rawdin",
+						"se"
+					],
+					"path": [
+						"restfulcafe"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
