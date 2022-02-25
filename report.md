@@ -26,10 +26,10 @@ Using hypermedia, each resource has links to its target URI (self) and its link 
 
 The Bean and Drink resources can be accessed through two different types of identifiers, the ID or name of the resources. I chose to design these URIs this way since the initial way of only being able to access the resources by their IDs as identifier didn’t feel so “user-friendly”. When the user tries to access a specific resource with a valid URI, the application will verify if the identifier is a numeric ID or name string and will find it accordingly.  
 
-Examples: 
-Both of these URIs point to the same resource.
-```https://rawdin.se/restfulcafe/beans/1```
-```https://rawdin.se/restfulcafe/beans/sidamo```
+Examples:  
+*Both of these URIs point to the same resource.*  
+```https://rawdin.se/restfulcafe/beans/1```  
+```https://rawdin.se/restfulcafe/beans/sidamo```  
 
 ## Webhooks
 
@@ -56,26 +56,26 @@ Besides these, I may have also wanted to improve the database design with better
 
 The application follows the following rules of linguistic design
 
-- [x] rule 1: Forward slash separator (/) must be used to indicate a "hierarchical relationship".  
+- [x] **rule 1: Forward slash separator (/) must be used to indicate a "hierarchical relationship".**  
 It feels logical and familiar to read URIs with the forward slash to indicate hierarchy. Example: ```https://rawdin.se/restfulcafe/drinks/mocha```
-- [x] rule 2: A trailing forward-slash (/) should not be included in URIs.  
+- [x] r**ule 2: A trailing forward-slash (/) should not be included in URIs.**  
 A trailing forward-slash feels redundant when specifying the URI (even though the API allows this).
-- [x] rule 4: Underscores (_) should not be used in URIs.  
+- [x] **rule 4: Underscores (_) should not be used in URIs.**  
 I chose to not have underscores in the URIs since this adds a bit of complexity when specifying or reading the URI.
-- [x] rule 5: Lowercase letters should be preferred in URI paths.  
+- [x] **rule 5: Lowercase letters should be preferred in URI paths.**  
 Only having lowercase letters simplifies the readability of the URI. 
-- [x] rule 6: File extensions should not be included in URIs.  
+- [x] **rule 6: File extensions should not be included in URIs.**  
 Having file extensions is redundant and complicated to have in the URIs. My API does not support this.
-- [x] rule 7: A "singular" noun should be used for document names.  
+- [x] **rule 7: A "singular" noun should be used for document names.**  
 Logical to have a singular noun for a single document/resource. 
-- [x] rule 8: A "plural" noun should be used for collection names.  
+- [x] **rule 8: A "plural" noun should be used for collection names.**  
 Logical to have a plural noun for a collection. Also adds clarity of location for the user.
-- [x] rule 10: CRUD function names or their synonyms should not be used in URIs.  
+- [x] **rule 10: CRUD function names or their synonyms should not be used in URIs.**  
 For simplicity of using and managing the resources, specifying the HTTP method to perform CRUD actions are enough.
-- [x] rule 11: A verb or verb phrase should be used for controller names.  
+- [x] **rule 11: A verb or verb phrase should be used for controller names.**  
 Adds clarity and readability for the functionality that can be performed on the URI.
 
-##URIs
+## URIs
 
 
 | URI                                                | HTTP Method | Response code (expected) | Protected (Auth) | Description                                  | Notes                                                                 |
