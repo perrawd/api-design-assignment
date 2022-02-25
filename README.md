@@ -1,106 +1,106 @@
-# API design assignment
+#RESTful Café API
+[https://rawdin.se/restfulcafe](https://rawdin.se/restfulcafe)  
+[Postman collection](collection.json)  
+[API documentation](Rawdin_API_Documentation.txt) (also available below)
 
-In this assignment, you will implement a web API following the theory of REST. We encourage you to have your own ideas about the API service to build. Maybe you have some idea you want to start with through an API-driven design? For those of you without any ideas, we present a scenario below. That will also give a hint of the extent of this assignment.
+##Introduction
 
-## Overall requirements
+RESTful Cafe is a coffeeshop that specializes in the finest coffee beans from around the world and offers great coffee drinks made with the best quality beans.  
+The cafe offers an API for its employees and customers that lists available coffee beans and drinks available on its menu.  
+Customers can register for an account and login to the application in order to subscribe and get notified when new coffee beans or drinks are added to the menu.  
+The café employs a number of employees that handles the coffee beans that are available and the drinks on the menu. These employees need to be assigned an account in order to manage these resources.
+##The application
+To get out of my comfort zone of working with JavaScript and Node.js, I decided to build this project in Java. The application is written with Java 17, Maven, Spring Framework and JWT-auth package with a MySQL database as the backend.
+The application is deployed on my personal server and domain (https://rawdin.se). The traffic and communication with the API should be done with HTTPS.
+##HATEOAS
+From the entry point of the API, users are greeted with a list of sub-directories that are publicly available for users (beans, drinks and orders). Each of these sub-directories contain a link that makes it possible for the users to browse through the resources of each sub-directory. Some of the directories of the API are not listed in the entry point since they may contain information regarding registered users and employees, these are therefore protected (and hidden) for only the user groups.  
+Each sub-directory of the API provides a list of the resources through the GET method. With an identifier attached to the URI, users can also view a specific resource. Authorized users can additionally perform POST, PUT and DELETE actions on the resources.
+Using hypermedia, each resource has links to its target URI (self) and its link relation type (or parent directory) (rel). This makes the API browsable and the users can navigate and traverse through resources in similar fashion as with web pages or web applications.
 
-You are expected to have error handling, security, good code structure, accessibility through HTTP/HTTPS, and so on. Below are two sets of requirements for this assignment. To PASS the Web APIs module project, you must fulfill all the "mandatory" requirements and at least five linguistic design rules. The "linguistic design rules" are introduced in the lectures. Watch/follow them! You are free to choose your own implementation or use our proposed suggestion. You are free to choose any frameworks, libraries, and modules for solving this assignment as long as the examiners can test your solution easily. Please read the **MUST** and **SHOULD** carefully.
+##Multiple representations of the resources
+The Bean and Drink resources can be accessed through two different types of identifiers, the ID or name of the resources. I chose to design these URIs this way since the initial way of only being able to access the resources by their IDs as identifier didn’t feel so “user-friendly”. When the user tries to access a specific resource with a valid URI, the application will verify if the identifier is a numeric ID or name string and will find it accordingly.
 
-## Mandatory API design requirements
+Examples:
+Both of these URIs point to the same resource.
+```https://rawdin.se/restfulcafe/beans/1```
+```https://rawdin.se/restfulcafe/beans/sidamo```
 
-* The API MUST at least support representations with "application/json"
-* The API should try to follow the constraints for RESTful APIs
-* The API MUST embrace the idea of HATEOAS. The API should have one entry point and use HATEOAS for making the API browsable.
-* The API should allow the client to create, read, update and delete resources. You MUST have at least one call for GET, PUT, POST, and DELETE methods.
-* Unsafe HTTP methods and data about users in the system should require authentication done through the API with the implementation of JWT-tokens.
-* The API MUST give some ability to register a webhook, which will trigger on some of your chosen events.
-* In your examination repository, you MUST provide a [POSTMAN](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) collection. The examiner MUST be able to load this into the POSTMAN application or a [NEWMAN CLI](https://www.getpostman.com/docs/postman/collection_runs/command_line_integration_with_newman) and test your API without ANY further configuration. For more information about POSTMAN and NEWMAN see this article: https://scotch.io/tutorials/write-api-tests-with-postman-and-newman
-* Do not forget to make calls that show your error handling like bad requests, wrong credentials, and so on.
-* The code MUST be published in your examination repository along with a report (see below).
-* Your solution MUST be testable without any configuration, installations of servers, and so on. Preferable, the API will be testable through a public URL. Any instructions on how to test your solution should be in your repository README.md.
-* The code MUST be "individually" created. The examiners may run a code anti-plagiarism tool on your code. Plagiarism will be seriously considered and reported for action.
-* Make a script file that automatically populated your application with some data for testing.
+##Webhooks
+Registered customers can sign up for subscriptions of new beans and drinks that are added. When users subscribe for these events through the ```https://rawdin.se/subscribe``` URI, they must specify the URI to receive the subscription on, the event that they want to subscribe to and a secret to be used with the webhook. The available events are "NEWBEAN" and "NEWDRINK". Only registered users are allowed to sign up for the webhooks subscriptions. These subscriptions are then stored in the database. When any of the events is triggered, the application will loop through all subscribers, make a POST request with the resource (together with HATEOAS links) that has been added as the payload. The secret that was provided by the user will be attached to the ```x-app-secret``` header in the POST request.
+When I initially wrote the webhook functionality, it was done in a blocking way and when there were many subscribers to manage, the process of adding a resource took a longer time. I therefore rewrote this and the sequence of sending the POST requests is now done asynchronously.
 
-## Linguistic design rules for APIs (MUST implement at least five rules)
+##Security and Authentication/Authorization
+When creating an account in the application, the user needs to be assigned with a role (customer, employee, manager, or administrator). Many of the applications methods and routes are limited for these user roles. Most of the POST, PUT and DELETE methods are restricted for registered users, the only exceptions for this are the register and order routes (both POST).  
+When a new account is registered in the application, the provided password is encrypted using ```bcrypt``` hashing function. Authentication and authorization in the application are managed through the usage of JWT tokens. When a user properly logins to the application, an access and refresh token is provided for the user to perform the restricted actions. The JWT token has a payload containing the username, role, and lifetime of the token. The access token has a lifetime of 10 minutes before it expires. A new access token can be obtained after it expires with the refresh token that is provided. This refresh token has a longer lifespan of 30 minutes. The secret key that is used is a random 20 character (numeric and alphabetical) long string and is passed to the application through an environment variable.
+I may have wanted to try with OAuth/Social Login for this assignment but found it to possibly be complicated to implement with the learning curve required.
+##Assignment reflection and on what could be improved
+Working with this assignment has given me the opportunity to further explore REST API and discovering new concepts such as HATEOAS. Having touched on working with building an API before, this assignment gave me additional experience and a deeper understanding of designing APIs. I got to explore new technologies such as the Spring framework which I understand is a widely used framework for building APIs in the industry.  
+As one of the improvements that I may have wanted to implement is additional HATEOAS links for the resources such as next and previous links. I had some challenges implementing the functionality of this properly, so it was unfortunately left out.  
+There is one minor issue with the HATEOAS links in the resources which is that the links have HTTP scheme and not HTTPS as they suppose to. My server and domain supports HTTPS, but even through longer troubleshooting of both the application and the reverse proxy (nginx), I was unable to resolve this before the hand-in.  
+Besides these, I may have also wanted to improve the database design with better relationships between the resources.
 
-* rule 1: Forward slash separator (/) must be used to indicate a "hierarchical relationship".
-* rule 2: A trailing forward-slash (/) should not be included in URIs.
-* rule 3: Hyphens (-) should be used to improve the readability of URIs.
-* rule 4: Underscores (_) should not be used in URIs.
-* rule 5: Lowercase letters should be preferred in URI paths.
-* rule 6: File extensions should not be included in URIs.
-* rule 7: A "singular" noun should be used for document names.
-* rule 8: A "plural" noun should be used for collection names.
-* rule 9: A plural noun should be used for store names.
-* rule 10: CRUD function names or their synonyms should not be used in URIs.
-* rule 11: A verb or verb phrase should be used for controller names.
-* rule 12: The query component of a URI may be used to filter collections or stores.
-* rule 13: The query component of a URI should be used to paginate collection or store results.
+## Linguistic design
 
-## Our suggestion for those without their own ideas
+The application follows the following rules of linguistic design
 
-The "LNU Fishing Club" needs an API to collect fishing reports. They are thinking of building a client application but want a separate web API before taking this process along. The idea is that anglers should report their catch and make this data public. They want to collect data like:
+- [x] rule 1: Forward slash separator (/) must be used to indicate a "hierarchical relationship".  
+  It feels logical and familiar to read URIs with the forward slash to indicate hierarchy. Example: ```https://rawdin.se/restfulcafe/drinks/mocha```
+- [x] rule 2: A trailing forward-slash (/) should not be included in URIs.  
+  A trailing forward-slash feels redundant when specifying the URI (even though the API allows this).
+- [x] rule 4: Underscores (_) should not be used in URIs.  
+  I chose to not have underscores in the URIs since this adds a bit of complexity when specifying or reading the URI.
+- [x] rule 5: Lowercase letters should be preferred in URI paths.  
+  Only having lowercase letters simplifies the readability of the URI.
+- [x] rule 6: File extensions should not be included in URIs.  
+  Having file extensions is redundant and complicated to have in the URIs. My API does not support this.
+- [x] rule 7: A "singular" noun should be used for document names.  
+  Logical to have a singular noun for a single document/resource.
+- [x] rule 8: A "plural" noun should be used for collection names.  
+  Logical to have a plural noun for a collection. Also adds clarity of location for the user.
+- [x] rule 10: CRUD function names or their synonyms should not be used in URIs.  
+  For simplicity of using and managing the resources, specifying the HTTP method to perform CRUD actions are enough.
+- [x] rule 11: A verb or verb phrase should be used for controller names.  
+  Adds clarity and readability for the functionality that can be performed on the URI.
 
-* The user who catches the fish
-* The position (longitude and latitude) of the catch
-* The name of the lake/river
-* The city of the fishing spot
-* Specie of the fish
-* Weight
-* Length
-* Image-URL
-* Timestamp of the catch
+##URIs
 
-To do un-safe HTTP calls, the API MUST have Authentication/Authorization. A user should be able to sign in through the API safely (see requirements).
 
-Of course, you are free to implement additional features in your web API.
-
-## Report
-
-This examination is a hand-in assignment. You will need to defend your design decisions in writing by answering the questions below in a report. These questions should be answered in your Merge Request Assignment Report. _(See details under "Hand in" below)_
-
-The report should include the course code, course name, your name, and an introduction describing the problem you have tried to solve.
-
-The following questions **MUST** be answered in the report.
-
-1. Explain and defend your implementation of HATEOAS in your solution.
-2. If your solution should implement multiple representations of the resources. How would you do it?
-3. Motivate and defend your authentication solution.
- 3a. What other authentication solutions could you implement?
- 3b. What are the pros/cons of this solution?
-4. Explain how your webhook works.
-5. Since this is your first own web API, there are probably things you would solve in another way, looking back at this assignment. Write your thoughts about this.
-6. Which "linguistic design rules" have you implemented? List them here and motivate "for each" of them very briefly why you choose them? Remember that you must consider "at least" FIVE "linguistic design rules" as the linguistic quality of your API.
-7. Did you do something extra besides the fundamental requirements? Explain them.
-8. **Do not miss it!** A text document "LastName_API_Documentation.txt" where you will list your resource URIs and their corresponding brief descriptions. If you have a URI being used with multiple HTTP methods, you need to describe each pair of **HTTP METHOD : URI** separately. For example, if you have a resource URI as www.example.com/fish/types and you have HTTP methods GET, PUT, POST, and DELETE to perform something on that resource, you need to describe each pair of Method and URI briefly, e.g., what GET www.example.com/fish/types does, what PUT www.example.com/fish/types does, what DELETE www.example.com/fish/types does, and so on.
-
-## Examination
-
-The grade for this assignment is F (fail), Fx (fail, with options to improve), and P (pass). We will take note of your effort and give you grades like P-, P, or P+ that could affect your final grade on this course. 
-We will look at the "linguistic design quality" and "structure" of the API and the code, how easy your API is to understand, the extent of your effort, and the easiness for the examiner to test your solution.
-
-## Hints
-
-* Start by making a plan on how to solve the assignment. What do you have to do? What steps do you have to take? What do you need to know and learn? Plan your work and plan early!
-* Start with your resources/models. Create them and write a seed script that fills your storage with some data to play with when testing your API.
-* Do not spend time on over-doing validation rules. In a real scenario, we should, but in this assignment, the API is the most important.
-* Maybe a simple client application will help you develop a good API, especially with respect to HATEOAS.
-* Learning and using POSTMAN/NEWMAN is your own responsibility. Make sure to read the article: https://scotch.io/tutorials/write-api-tests-with-postman-and-newman
-
-## Hand in of the assignment
-
-You hand in your assignment by making a Merge Request (MR). Make sure you do the following:
-
-* Create an MR from your 'main'-branch to your 'lnu/submit'-branch.
-* Add a title: "Submission, API design assignment".
-* Check the boxes in the description by adding an 'x' between the brackets.
-* Make sure to fill in the Assignment Report. (The questions are in HTML comments so that you can leave them there. Make sure to **not** write your code inside comments!)
-* Select the milestone to which you would like to make the submission. Important!
-
-Do not add anything else. Do not close your MR. Doing that will count as if you have withdrawn your submission.
-
-You can continue to push to the main branch, and those commits will be added to the submission. The pipeline will indicate that your submission is late if you commit after the deadline.
-
-You can edit the MR, and the assignment report after the MR is opened.
-
-You can add comments to your MR if you want to communicate anything to the examiner.
+| URI                                                | HTTP Method | Response code (expected) | Protected (Auth) | Description                                  | Notes                                                                 |
+| -------------------------------------------------- | ----------- | ------------------------ | ---------------- | -------------------------------------------- | --------------------------------------------------------------------- |
+| https://rawdin.se/restfulcafe/                     | GET         | 200                      | No               | Entry point of the API                       | List all public subdirectories (beans, drinks, orders)                |
+| https://rawdin.se/restfulcafe/beans                | GET         | 200                      | No               | List of all Bean resources                   |                                                                       |
+| https://rawdin.se/restfulcafe/beans                | POST        | 201                      | Yes              | Add Bean resource                            |                                                                       |
+| https://rawdin.se/restfulcafe/beans/{id}           | GET         | 200                      | No               | Single Bean resource                         | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/beans/{id}           | PUT         | 200                      | Yes              | Update single Bean resource                  | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/beans/{id}           | DELETE      | 204                      | Yes              | Delete single Bean resource                  | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/beans/{name}         | GET         | 200                      | No               | Single Bean resource                         | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/beans/{name}         | PUT         | 200                      | Yes              | Update single Bean resource                  | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/beans/{name}         | DELETE      | 204                      | Yes              | Delete single Bean resource                  | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/drinks               | GET         | 200                      | No               | List of all Drink resources                  |                                                                       |
+| https://rawdin.se/restfulcafe/drinks               | POST        | 201                      | Yes              | Add Drink resource                           |                                                                       |
+| https://rawdin.se/restfulcafe/drinks/{id}          | GET         | 200                      | No               | Single Drink resource                        | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/drinks/{id}          | PUT         | 200                      | Yes              | Update single Drink resource                 | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/drinks/{id}          | DELETE      | 204                      | Yes              | Delete single Drink resource                 | URI with ID of the resource as identifier                             |
+| https://rawdin.se/restfulcafe/drinks/{name}        | GET         | 200                      | No               | Single Drink resource                        | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/drinks/{name}        | PUT         | 200                      | Yes              | Update single Drink resource                 | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/drinks/{name}        | DELETE      | 204                      | Yes              | Delete single Drink resource                 | URI with name of the resource as identifier                           |
+| https://rawdin.se/restfulcafe/employees            | GET         | 200                      | Yes              | List of users with Employee roles            | Users with Employee, Manager or Admin roles                           |
+| https://rawdin.se/restfulcafe/customers            | GET         | 200                      | Yes              | List of users with Customer role             |                                                                       |
+| https://rawdin.se/restfulcafe/users                | GET         | 200                      | Yes              | List of all user resources                   |                                                                       |
+| https://rawdin.se/restfulcafe/users                | POST        | 201                      | Yes              | Add User resource                            |                                                                       |
+| https://rawdin.se/restfulcafe/users/{id}           | GET         | 200                      | Yes              | Single User resource                         |                                                                       |
+| https://rawdin.se/restfulcafe/users/{id}           | PUT         | 200                      | Yes              | Update single User resource                  |                                                                       |
+| https://rawdin.se/restfulcafe/users/{id}           | DELETE      | 204                      | Yes              | Delete single User resource                  |                                                                       |
+| https://rawdin.se/restfulcafe/register             | POST        | 201                      | No               | Register new customer account                |                                                                       |
+| https://rawdin.se/restfulcafe/login                | POST        | 200                      | Yes              | Login for users                              |                                                                       |
+| https://rawdin.se/restfulcafe/login/refresh        | GET         | 200                      | Yes              | Get new access token with refresh token      |                                                                       |
+| https://rawdin.se/restfulcafe/subscribe            | POST        | 201                      | Yes              | Register for webhook subscription            | Alternative URI for customers/end-users                               |
+| https://rawdin.se/restfulcafe/subscriptions        | GET         | 200                      | Yes              | List of all Subscription (webhook) resources |
+| https://rawdin.se/restfulcafe/subscriptions        | POST        | 201                      | Yes              | Register for webhook subscription            |                                                                       |
+| https://rawdin.se/restfulcafe/subscriptions        | PUT         | 200                      | Yes              | Update webhook resource                      |                                                                       |
+| https://rawdin.se/restfulcafe/subscriptions        | DELETE      | 204                      | Yes              | Delete webhook resource                      |                                                                       |
+| https://rawdin.se/restfulcafe/orders               | GET         | 200                      | Yes              | List of all Order resources                  |                                                                       |
+| https://rawdin.se/restfulcafe/orders/{id}          | POST        | 200                      | No               | Make a new Order                             |                                                                       |
+| https://rawdin.se/restfulcafe/orders/{id}          | GET         | 201                      | Yes              | Single Order resource                        |                                                                       |
+| https://rawdin.se/restfulcafe/orders/{id}/complete | PUT         | 200                      | Yes              | Complete an Order                            | Sets an Order status to SERVED (Order must be in status PREPARING)    |
+| https://rawdin.se/restfulcafe/orders/{id}/cancel   | DELETE      | 204                      | Yes              | Cancels an Order                             | Sets an Order status to CANCELLED (Order must be in status PREPARING) |
